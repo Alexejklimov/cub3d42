@@ -14,6 +14,7 @@ NAME = cub3d
 
 SRCS =  cub3d.c src/parsing/read_and_separate.c src/parsing/parse_map.c \
 		src/utils/utils.c src/parsing/parsing_utils.c \
+		src/handle_movement.c src/init.c src/raycasting.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -26,7 +27,7 @@ PRINTF = libraries/printf/libftprintf.a
 HEADERS := -I./libraries/printf -I./libraries/MLX42/include -I./libraries/libft -I./libraries/gnl -g
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -O3
+CFLAGS = -Wall -Werror -Wextra -O3 -g
 MLX_FLAGS = -ldl -lglfw -pthread -lm
 
 $(NAME): $(OBJS) ${LIBMLX} ${PRINTF} ${LIBFT}

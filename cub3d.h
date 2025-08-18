@@ -15,11 +15,13 @@
 
 // # include "libraries/minilibx-linux/mlx.h"
 # include "libraries/printf/ft_printf.h"
+# include "libraries/MLX42/include/MLX42/MLX42.h"
 # include "libraries/libft/libft.h"
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdio.h>
+# include <sys/time.h>
 # include <X11/X.h>
 # include <X11/keysym.h>
 # include <math.h>
@@ -31,15 +33,19 @@
 # define D 100
 # define PXL 16 ///////////////
 
+# define WIDTH 800
+# define HEIGHT 600
+
+
 typedef struct s_player
 {
-	double	x;      // позиция x
-    double	y;      // позиция y  
-    double	angle;  // угол поворота
-    double	plane_x;  // угол поворота
-    double	plane_y;  // угол поворота
-    double	dx;     // направление x (cos угла)
-    double	dy;     // направление y (sin угла)
+	double	x;			// позиция x
+    double	y;			// позиция y  
+    double	angle;		// угол поворота
+    double	plane_x;	// угол поворота
+    double	plane_y;	// угол поворота
+    double	dx;			// направление x (cos угла)
+    double	dy;			// направление y (sin угла)
 }			t_player;
 
 typedef struct s_map_info
@@ -56,10 +62,19 @@ typedef struct s_map_info
 
 typedef struct s_game
 {
-	void		*mlx;
-	void		*win_mlx;
-	char		**map;
+	mlx_t		*mlx;
+	mlx_image_t	*image;
+	mlx_image_t	*wall_image;
+	void		*win_mlx;//
+	// char		**map;//
 	t_map_info	*map_info;
+	t_player	player;
+	double		move_speed;
+	double		move_rotate;
+	double		time;
+	double		oldtime;
+	double		first_frame;
+	int			**map;
 }				t_game;
 
 typedef enum e_texture

@@ -12,6 +12,34 @@
 
 #include "cub3d.h"
 
+
+
+void	game_loop(void *param);
+int		init(t_game *game);
+void	raycast(t_game *game);
+void	handle_movement(t_game *game);
+double	ft_get_time();
+
+
+void	print_map(t_game *game)
+{
+	size_t	i = 0, j = 0;
+
+	size_t	rows = game->map_info->x;
+	size_t	cols = game->map_info->y;
+	while (i < rows)
+	{
+		j = 0;
+		while (j < cols)
+		{
+			printf("%d", game->map[i][j]);
+			j++;
+		}
+		printf("\n");
+		i++;
+	}
+}
+
 int	ft_check_arg(char *mapname, char *ber)
 {
 	int	i;
@@ -70,5 +98,83 @@ int	main(int ac, char **av)
 			(map->y) * PXL, "CUB3D");
 	if (!game->win_mlx)
 		return (free(game->mlx), 1); */
+	
+
+
+
+	/********************************************************************** */
+	game->map_info = map;
+	if (init(game) != 0)
+	{
+		printf("Error init game\n");
+		return (EXIT_FAILURE);
+	}
+		
+	game->mlx = mlx_init(WIDTH, HEIGHT, "Simple Raycaster - MLX42", false);
+    if (!game->mlx) {
+        printf("Ошибка инициализации MLX42\n");
+        return (EXIT_FAILURE);
+    }
+    
+    // Создание изображения для рендеринга
+    game->image = mlx_new_image(game->mlx, WIDTH, HEIGHT);
+    if (!game->image) {
+        printf("Ошибка создания изображения\n");
+        mlx_terminate(game->mlx);
+        return (EXIT_FAILURE);
+    }
+    
+    // Добавляем изображение в окно
+    if (mlx_image_to_window(game->mlx, game->image, 0, 0) < 0) {
+        printf("Ошибка добавления изображения в окно\n");
+        mlx_terminate(game->mlx);
+        return (EXIT_FAILURE);
+    }
+
+	mlx_loop_hook(game->mlx, game_loop, game);
+    
+    mlx_loop(game->mlx);
+    
+    mlx_terminate(game->mlx);
+
+
 	return (0);
+}
+
+
+
+void game_loop(void *param)
+{
+    t_game *game = (t_game *)param;
+	double	time;
+	double	frame_time;
+	
+
+	time = ft_get_time();
+	if (game->first_frame)
+	{
+		game->oldtime = time;
+		frame_time = 0.016;
+		game->first_frame = 0;
+		
+	}
+	else
+	{
+		frame_time = (time - game->oldtime) / 1000.0;
+	}
+	
+	printf("Time: %f ms, FrameTime: %f s\n", time, frame_time);
+    if (frame_time > 0)
+        printf("FPS: %.2f\n", 1.0 / frame_time);
+    
+    game->oldtime = time;
+	game->move_speed = frame_time * 5.0;
+	game->move_rotate = frame_time * 3.0;
+	printf("move speed: %f, rotate speed: %f\n", game->move_speed, game->move_rotate);
+	
+    // Обрабатываем движение
+    handle_movement(game);
+    
+    // Выполняем raycasting
+    raycast(game);
 }
