@@ -6,7 +6,7 @@
 /*   By: nmagomad <nmagomad@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 15:11:39 by nmagomad          #+#    #+#             */
-/*   Updated: 2025/08/18 18:29:47 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/08/18 19:51:50 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,62 @@ uint32_t	get_texture_color(mlx_image_t *texture, int tex_x, int tex_y)
 	return ((pixel[3] << 24) | (pixel[0] << 16) | (pixel[1] << 8) | pixel[2]);
 }
 
+void	dda_algorithm(t_raycast *raycast, int **world_map, int map_width, int map_height)
+{
+	t_raycast	r;
+
+	if (!raycast)
+		return ;
+	r = *raycast;
+	while (true)
+	{
+		if (r.side_dist_x < r.side_dist_y)
+		{
+			r.side_dist_x += r.delt_dist_x;
+			r.map_x += r.step_x;
+			r.side = 0;
+		}
+		else
+		{
+			r.side_dist_y += r.side_dist_y;
+			r.map_y += r.step_y;
+			r.side = 1;
+		}
+		if (r.map_x >= 0 && r.map_x < map_width && r.map_y >= 0 &&
+			r.map_y < map_height && world_map[r.map_x][r.map_y] > 0)
+			break;
+	}
+	*raycast = r;
+}
+
+void	calc_perp_wall_dist(t_raycast *raycast)
+{
+	t_raycast	r;
+	
+	if (!raycast)
+		return ;
+	r = *raycast;
+	if (r.side == 0)
+		r.perp_wall_dist = (r.side_dist_x - r.delt_dist_x);
+	else
+		r.perp_wall_dist = (r.side_dist_y - r.delt_dist_y);
+	if (r.perp_wall_dist < 0.25)// testing
+		r.perp_wall_dist = 0.25;//
+        
+	r.wall_height = (int)(HEIGHT / r.perp_wall_dist);
+	if (r.wall_height > HEIGHT)//
+		r.wall_height = HEIGHT;//
+	r.wall_start = (HEIGHT - r.wall_height) / 2;
+	if (r.wall_start < 0)
+		r.wall_start = 0;
+	r.wall_end = r.wall_start + r.wall_height;
+	if (r.wall_end >= HEIGHT)
+		r.wall_end = HEIGHT - 1;
+	if (r.wall_end < 0)//
+		r.wall_end = 0;
+	*raycast = r;
+}
+
 // Основная функция raycasting
 void raycast(t_game *game)
 {
@@ -54,7 +110,6 @@ void raycast(t_game *game)
     int side;
 	int **world_map = game->map;
 
-    // int hit = 0;
     
     // Инициализация позиции и направления игрока
     posX = game->player.x;
@@ -144,10 +199,13 @@ void raycast(t_game *game)
             perpWallDist = (sideDistX - deltaDistX);
         else
             perpWallDist = (sideDistY - deltaDistY);
+		if (perpWallDist < 0.25)//
+			perpWallDist = 0.25;//
         
-		printf("%f\n", perpWallDist);
         // Вычисляем высоту стены на экране
         int wall_height = (int)(HEIGHT / perpWallDist);
+		if (wall_height > HEIGHT)//
+			wall_height = HEIGHT;//
         
         // Определяем начало и конец стены на экране
         int wall_start = (HEIGHT - wall_height) / 2;
@@ -157,7 +215,9 @@ void raycast(t_game *game)
         int wall_end = wall_start + wall_height;
         if (wall_end >= HEIGHT)
             wall_end = HEIGHT - 1;
-        
+        if (wall_end < 0)//
+			wall_end = 0;
+		printf("%f, wall_height: %d; wall_start: %d; wall_end: %d\n", perpWallDist, wall_height, wall_start, wall_end);
         // Рисуем вертикальную линию
         for (int y = 0; y < HEIGHT; y++)
         {

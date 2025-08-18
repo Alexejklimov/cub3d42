@@ -60,18 +60,36 @@ typedef struct s_map_info
 	int			ceil_rgb[3];
 }	t_map_info;
 
+typedef struct s_raycast
+{
+	double	camera_x;
+	double	raydir_x;
+	double	raydir_y;
+	double	side_dist_x;
+	double	side_dist_y;
+	double	delt_dist_x;
+	double	delt_dist_y;
+	double	perp_wall_dist;
+	int		step_x;
+	int		step_y;
+	int		side;
+	int		map_x;
+	int		map_y;
+	int		wall_height;
+	int		wall_start;
+	int		wall_end;
+}			t_raycast;
+
 typedef struct s_game
 {
 	mlx_t		*mlx;
 	mlx_image_t	*image;
 	mlx_image_t	*wall_image;
 	void		*win_mlx;//
-	// char		**map;//
 	t_map_info	*map_info;
 	t_player	player;
 	double		move_speed;
 	double		move_rotate;
-	// double		time;
 	double		oldtime;
 	double		first_frame;
 	int			**map;
