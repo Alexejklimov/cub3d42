@@ -19,20 +19,21 @@ OBJS = $(SRCS:.c=.o)
 
 LIBFT = libraries/libft/libft.a
 
-
-LIBMLX = libraries/MLX42
+LIBMLX = libraries/MLX42/build/libmlx42.a
 
 PRINTF = libraries/printf/libftprintf.a
 
+HEADERS := -I./libraries/printf -I./libraries/MLX42/include -I./libraries/libft -I./libraries/gnl -g
+
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -I./libraries/printf -I./libraries/minilibx-linux -I./libraries/libft -I./libraries/gnl -g
-MLX_FLAGS = -Llibraries/minilibx-linux -lmlx -L/usr/lib/X11 -lXext -lX11
+CFLAGS = -Wall -Werror -Wextra -O3
+MLX_FLAGS = -ldl -lglfw -pthread -lm
 
 $(NAME): $(OBJS) ${LIBMLX} ${PRINTF} ${LIBFT}
 	@${CC} ${OBJS} -o ${NAME} ${PRINTF} ${LIBFT} ${LIBMLX} ${MLX_FLAGS}
 
 %.o: %.c
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
 
 all: build
 
@@ -53,7 +54,8 @@ $(PRINTF):
 	@make --no-print-directory -C libraries/printf
 
 $(LIBMLX):
-	@make -C libraries/minilibx-linux
+# 	@make -C libraries/minilibx-linux
+	@cmake libraries/MLX42 -B libraries/MLX42/build && make -C libraries/MLX42/build -j4
 
 ${LIBFT}:
 	@make -C libraries/libft

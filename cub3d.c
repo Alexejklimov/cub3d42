@@ -62,13 +62,13 @@ int	main(int ac, char **av)
 	if (ac != 2 || ft_check_arg(av[1], ".cub") != 0)
 		return (ft_printf("Error\n Map path/name isn`t valid\n"));
 	parse_map(av[1], map);
-	//check_struct(map);
-	game->mlx = mlx_init();
+	check_struct(map);
+	/* game->mlx = mlx_init();
 	if (!game->mlx)
 		return (1);
 	game->win_mlx = mlx_new_window(game->mlx, (map->x) * PXL,
 			(map->y) * PXL, "CUB3D");
 	if (!game->win_mlx)
-		return (free(game->mlx), 1);
+		return (free(game->mlx), 1); */
 	return (0);
 }

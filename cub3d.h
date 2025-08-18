@@ -13,7 +13,7 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "libraries/minilibx-linux/mlx.h"
+// # include "libraries/minilibx-linux/mlx.h"
 # include "libraries/printf/ft_printf.h"
 # include "libraries/libft/libft.h"
 # include <stdlib.h>
@@ -31,6 +31,17 @@
 # define D 100
 # define PXL 16 ///////////////
 
+typedef struct s_player
+{
+	double	x;      // позиция x
+    double	y;      // позиция y  
+    double	angle;  // угол поворота
+    double	plane_x;  // угол поворота
+    double	plane_y;  // угол поворота
+    double	dx;     // направление x (cos угла)
+    double	dy;     // направление y (sin угла)
+}			t_player;
+
 typedef struct s_map_info
 {
 	size_t		x;
@@ -45,11 +56,11 @@ typedef struct s_map_info
 
 typedef struct s_game
 {
-	void	*mlx;
-	void	*win_mlx;
-	char	**map;
-
-}	t_game;
+	void		*mlx;
+	void		*win_mlx;
+	char		**map;
+	t_map_info	*map_info;
+}				t_game;
 
 typedef enum e_texture
 {
