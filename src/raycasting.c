@@ -6,7 +6,7 @@
 /*   By: nmagomad <nmagomad@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 15:11:39 by nmagomad          #+#    #+#             */
-/*   Updated: 2025/08/18 17:02:25 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/08/18 18:29:47 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,15 @@ void put_pixel(mlx_image_t *image, int x, int y, uint32_t color)
 uint32_t create_color(int r, int g, int b, int a)
 {
     return (r << 24 | g << 16 | b << 8 | a);
+}
+
+uint32_t	get_texture_color(mlx_image_t *texture, int tex_x, int tex_y)
+{
+	uint8_t	*pixel;
+	if (tex_x < 0 || tex_x >= (int)texture->width || tex_y < 0 || tex_y >= (int)texture->height)
+		return (0xFF000000);
+	pixel = &texture->pixels[(tex_y * texture->width + tex_x) * 4];
+	return ((pixel[3] << 24) | (pixel[0] << 16) | (pixel[1] << 8) | pixel[2]);
 }
 
 // Основная функция raycasting
@@ -57,10 +66,6 @@ void raycast(t_game *game)
 	int	map_width = game->map_info->y;
 	int	map_height = game->map_info->y;
 
-    
-    // Отладочный вывод (можно убрать в финальной версии)
-    /* printf("player.x %f, player.y %f, player.dx %f, player.dy %f, player angle %f\n",
-           game->player.x, game->player.y, game->player.dx, game->player.dy, game->player.angle); */
     
     // Проходим по каждому столбцу экрана
     while (x < WIDTH)
@@ -140,6 +145,7 @@ void raycast(t_game *game)
         else
             perpWallDist = (sideDistY - deltaDistY);
         
+		printf("%f\n", perpWallDist);
         // Вычисляем высоту стены на экране
         int wall_height = (int)(HEIGHT / perpWallDist);
         
@@ -162,7 +168,7 @@ void raycast(t_game *game)
             }
             else if (y >= wall_start && y <= wall_end) // Исправлено: y <= wall_end
             {
-				/* double	wallX;
+				double	wallX;
 				if (side == 0)
 					wallX = game->player.y + perpWallDist * rayDirY;
 				else
@@ -176,7 +182,6 @@ void raycast(t_game *game)
 				
 				uint32_t	tex_color = get_texture_color(game->wall_image, texX, texY);
 				
-				printf("tex_color: %d; texX: %d, texY: %d\n", tex_color, texX, texY);
 				
 				int r = (tex_color >> 16) & 0xFF;
 				int g = (tex_color >> 8) & 0xFF;
@@ -198,9 +203,11 @@ void raycast(t_game *game)
 				// Ограничиваем значения
 				if (r > 255) r = 255;
 				if (g > 255) g = 255;
-				if (b > 255) b = 255; */
-				
-                // Стена с эффектом затемнения по расстоянию
+				if (b > 255) b = 255;
+
+			//*************************************************************** */	
+			//**** no texture */
+            /*     // Стена с эффектом затемнения по расстоянию
                 int brightness = (int)(255 / (1 + perpWallDist * 0.1));
                 if (brightness > 255) brightness = 255;
                 if (brightness < 50) brightness = 50;
@@ -208,9 +215,12 @@ void raycast(t_game *game)
                 // Можно добавить различные цвета для разных сторон стены
                 if (side == 1) // горизонтальные стены чуть темнее
                     brightness = brightness * 0.8;
-                
-                put_pixel(game->image, x, y, create_color(brightness, brightness, brightness, 255));
-                // put_pixel(game->image, x, y, create_color(r, g, b, 255));
+				// no texture
+                put_pixel(game->image, x, y, create_color(brightness, brightness, brightness, 255)); */
+			//**** no texture */
+			//
+				// with texture
+                put_pixel(game->image, x, y, create_color(r, g, b, 255));
             }
             else
             {

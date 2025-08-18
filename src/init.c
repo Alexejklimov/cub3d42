@@ -6,7 +6,7 @@
 /*   By: nmagomad <nmagomad@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:35:04 by nmagomad          #+#    #+#             */
-/*   Updated: 2025/08/18 16:26:05 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/08/18 17:39:41 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,17 @@ int	init(t_game *game)
 	if (game->map_info->start_pos[0])
 		game->player.x = game->map_info->start_pos[0];
 	game->player.y = game->map_info->start_pos[1];
+	/*
+	*	dirX	dirY	planeX	planeY	- dircection
+	*	-1		 0		0		0.66		left
+	*	 1		 0		0		0.66		right
+	*	 0		-1		0.66	0			up
+	*	 0		 1		0.66	0			down
+	**/
 	game->player.dx = -1;
 	game->player.dy = 0;
 	game->player.plane_x = 0;
 	game->player.plane_y = 0.66;
-	game->time = 0;
 	game->oldtime = 0;
 	
 	game->map = malloc(game->map_info->x * sizeof(int *));
@@ -61,5 +67,6 @@ int	init(t_game *game)
 		}
 		i++;
 	}
+
 	return (0);
 }

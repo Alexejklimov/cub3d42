@@ -71,7 +71,7 @@ typedef struct s_game
 	t_player	player;
 	double		move_speed;
 	double		move_rotate;
-	double		time;
+	// double		time;
 	double		oldtime;
 	double		first_frame;
 	int			**map;

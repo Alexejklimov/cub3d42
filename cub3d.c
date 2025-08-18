@@ -111,25 +111,38 @@ int	main(int ac, char **av)
 	}
 		
 	game->mlx = mlx_init(WIDTH, HEIGHT, "Simple Raycaster - MLX42", false);
-    if (!game->mlx) {
+    if (!game->mlx)
+	{
         printf("Ошибка инициализации MLX42\n");
         return (EXIT_FAILURE);
     }
     
     // Создание изображения для рендеринга
     game->image = mlx_new_image(game->mlx, WIDTH, HEIGHT);
-    if (!game->image) {
+    if (!game->image)
+	{
         printf("Ошибка создания изображения\n");
         mlx_terminate(game->mlx);
         return (EXIT_FAILURE);
     }
     
     // Добавляем изображение в окно
-    if (mlx_image_to_window(game->mlx, game->image, 0, 0) < 0) {
+    if (mlx_image_to_window(game->mlx, game->image, 0, 0) < 0)
+	{
         printf("Ошибка добавления изображения в окно\n");
         mlx_terminate(game->mlx);
         return (EXIT_FAILURE);
     }
+	
+	// init texture 
+	xpm_t	*wall_texture = mlx_load_xpm42(game->map_info->texture[0]);
+	if (!wall_texture)
+	{
+        printf("Error: load XMP42 file\n");
+        mlx_terminate(game->mlx);
+        return (EXIT_FAILURE);
+	}
+	game->wall_image = mlx_texture_to_image(game->mlx, &wall_texture->texture);
 
 	mlx_loop_hook(game->mlx, game_loop, game);
     
@@ -172,9 +185,6 @@ void game_loop(void *param)
 	game->move_rotate = frame_time * 3.0;
 	printf("move speed: %f, rotate speed: %f\n", game->move_speed, game->move_rotate);
 	
-    // Обрабатываем движение
     handle_movement(game);
-    
-    // Выполняем raycasting
     raycast(game);
 }
