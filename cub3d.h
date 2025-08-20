@@ -33,8 +33,8 @@
 # define D 100
 # define PXL 16 ///////////////
 
-# define WIDTH 800
-# define HEIGHT 600
+# define WIDTH 1024
+# define HEIGHT 800
 
 
 typedef struct s_player
@@ -50,8 +50,8 @@ typedef struct s_player
 
 typedef struct s_map_info
 {
-	size_t		x;
-	size_t		y;
+	size_t		x; // heigth 
+	size_t		y; // width
 	char		**map;
 	int			start_pos[2];
 	char		start_orient;
