@@ -6,7 +6,7 @@
 /*   By: nmagomad <nmagomad@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 14:43:42 by nmagomad          #+#    #+#             */
-/*   Updated: 2025/08/18 18:32:08 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/08/20 14:30:52 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	move(t_game *game, double axis_x, double axis_y, int sign)
 		return ;
 	}
 	// if (new_x >= 0 && new_x < width && new_y >= 0 && new_y < height)
-	if (new_x >= 0.25 && new_x < width - 0.25 && new_y >= 0.25 && new_y < height - 0.25)
+	if (new_x >= 0.50 && new_x < width - 0.50 && new_y >= 0.50 && new_y < height - 0.50)
 	{
 		if (game->map[(int)new_x][(int)game->player.y] == 0)
 			game->player.x = new_x;

@@ -6,7 +6,7 @@
 /*   By: nmagomad <nmagomad@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 15:11:39 by nmagomad          #+#    #+#             */
-/*   Updated: 2025/08/18 19:51:50 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/08/20 14:36:57 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,27 @@ void	calc_perp_wall_dist(t_raycast *raycast)
 	*raycast = r;
 }
 
+void	calc_delta_dist(t_raycast *raycast)
+{
+	t_raycast	r;
+
+	if (!raycast)
+	{
+		printf("pointer raycast is NULL\n");
+		return ;
+	}
+	r = *raycast;
+	if (r.raydir_x == 0)
+		r.delt_dist_x = 1e30;
+	else
+		r.delt_dist_x = fabs(1 / r.raydir_x);
+	if (r.raydir_y == 0)
+		r.delt_dist_y = 1e30;
+	else
+		r.delt_dist_y = fabs(1 / r.raydir_y);
+	*raycast = r;
+}
+
 // Основная функция raycasting
 void raycast(t_game *game)
 {
@@ -109,6 +130,7 @@ void raycast(t_game *game)
     int stepX, stepY;
     int side;
 	int **world_map = game->map;
+	t_raycast	r;
 
     
     // Инициализация позиции и направления игрока
@@ -120,6 +142,10 @@ void raycast(t_game *game)
     plane_y = game->player.plane_y;
 	int	map_width = game->map_info->y;
 	int	map_height = game->map_info->y;
+	
+
+	ft_memset(&r, 0, sizeof(t_raycast));
+
 
     
     // Проходим по каждому столбцу экрана
@@ -129,10 +155,14 @@ void raycast(t_game *game)
         cameraX = 2 * x / (double)WIDTH - 1; // координата камеры от -1 до 1
         rayDirX = dirX + plane_x * cameraX;
         rayDirY = dirY + plane_y * cameraX;
+		r.raydir_x = game->player.dx + game->player.plane_x + cameraX;
+		r.raydir_y = game->player.dy + game->player.plane_y + cameraX;
         
         // Текущая позиция на карте
         int mapX = (int)posX;
         int mapY = (int)posY;
+		r.map_x = (int)game->player.x;
+		r.map_y = (int)game->player.y;
         
         // Вычисляем дельта расстояния (расстояние между пересечениями сетки)
         if (rayDirX == 0)
@@ -144,6 +174,7 @@ void raycast(t_game *game)
             deltaDistY = 1e30;
         else
             deltaDistY = fabs(1 / rayDirY);
+		
         
         // Определяем направление шага и начальное расстояние до стороны
         if (rayDirX < 0)
@@ -217,7 +248,7 @@ void raycast(t_game *game)
             wall_end = HEIGHT - 1;
         if (wall_end < 0)//
 			wall_end = 0;
-		printf("%f, wall_height: %d; wall_start: %d; wall_end: %d\n", perpWallDist, wall_height, wall_start, wall_end);
+		// printf("%f, wall_height: %d; wall_start: %d; wall_end: %d\n", perpWallDist, wall_height, wall_start, wall_end);
         // Рисуем вертикальную линию
         for (int y = 0; y < HEIGHT; y++)
         {
@@ -234,6 +265,8 @@ void raycast(t_game *game)
 				else
 					wallX = game->player.x + perpWallDist * rayDirX;
 				wallX -= floor(wallX);
+				if (wallX == 0 )
+					printf("WallX is negativ\n");
 				
 				int	texX = (int)(wallX * (double)game->wall_image->width);
 				if ((side == 0 && rayDirX > 0) || (side == 1 && rayDirY < 0))
