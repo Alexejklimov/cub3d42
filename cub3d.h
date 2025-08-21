@@ -82,8 +82,9 @@ typedef struct s_map_info
 
 typedef struct s_raycast
 {
-    double	cameraX;
-	double	posX, posY;
+    double	camera_x;
+	double	pos_x;
+	double	pos_y;
     double	dirX, dirY;
     double	planeX, planeY;
     double	rayDirX, rayDirY;
@@ -97,8 +98,28 @@ typedef struct s_raycast
 	int 	wall_height;
 	int 	wall_start;
 	int 	wall_end;
+}			t_raycast;
+
+typedef struct s_tex_info
+{
+	mlx_image_t	*nord_tex;
+	mlx_image_t	*south_tex;
+	mlx_image_t	*west_tex;
+	mlx_image_t	*east_tex;
+	mlx_image_t	*texture;
+	double		wall_x;
+	double		brightness_factor;
+	double		step;
+	double		tex_pos;
+	int			tex_x;
+	int			tex_y;
+
+	int			rgba[4];
+
+
+
 	
-}	t_raycast;
+}				t_tex_info;
 
 typedef struct s_game
 {

@@ -15,22 +15,23 @@
 
 void	print_map(t_game *game);
 void	render(t_game *game, int x, t_raycast ray);
+void	prepare_wall_slice(t_game *game, t_raycast ray, int x);
 
 void	init_raycast(t_game *game, t_raycast *ray, int x)
 {
 
-	(*ray).posX = game->player.x;
-    (*ray).posY = game->player.y;
+	(*ray).pos_x = game->player.x;
+    (*ray).pos_y = game->player.y;
     (*ray).dirX = game->player.dx;
     (*ray).dirY = game->player.dy;
     (*ray).planeX = game->player.plane_x;
     (*ray).planeY = game->player.plane_y;
-	(*ray).cameraX = 2 * x / (double)WIDTH - 1;
-	(*ray).rayDirX = (*ray).dirX + (*ray).planeX * (*ray).cameraX;
-	(*ray).rayDirY = (*ray).dirY + (*ray).planeY * (*ray).cameraX;
+	(*ray).camera_x = 2 * x / (double)WIDTH - 1;
+	(*ray).rayDirX = (*ray).dirX + (*ray).planeX * (*ray).camera_x;
+	(*ray).rayDirY = (*ray).dirY + (*ray).planeY * (*ray).camera_x;
 	// Текущая позиция на карте
-	(*ray).mapX = (int)(*ray).posX;
-	(*ray).mapY = (int)(*ray).posY;
+	(*ray).mapX = (int)(*ray).pos_x;
+	(*ray).mapY = (int)(*ray).pos_y;
 	
 }
 
@@ -82,23 +83,23 @@ void	calc_side_dist(t_raycast *ray)
 	if ((*ray).rayDirX < 0)
 	{
 		(*ray).stepX = -1;
-		(*ray).sideDistX = ((*ray).posX - (*ray).mapX) * (*ray).deltaDistX;
+		(*ray).sideDistX = ((*ray).pos_x - (*ray).mapX) * (*ray).deltaDistX;
 	}
 	else
 	{
 		(*ray).stepX = 1;
-		(*ray).sideDistX = ((*ray).mapX + 1.0 - (*ray).posX) * (*ray).deltaDistX;
+		(*ray).sideDistX = ((*ray).mapX + 1.0 - (*ray).pos_x) * (*ray).deltaDistX;
 	}
 	
 	if ((*ray).rayDirY < 0)
 	{
 		(*ray).stepY = -1;
-		(*ray).sideDistY = ((*ray).posY - (*ray).mapY) * (*ray).deltaDistY;
+		(*ray).sideDistY = ((*ray).pos_y - (*ray).mapY) * (*ray).deltaDistY;
 	}
 	else
 	{
 		(*ray).stepY = 1;
-		(*ray).sideDistY = ((*ray).mapY + 1.0 - (*ray).posY) * (*ray).deltaDistY;
+		(*ray).sideDistY = ((*ray).mapY + 1.0 - (*ray).pos_y) * (*ray).deltaDistY;
 	}
 	
 }

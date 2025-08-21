@@ -6,7 +6,7 @@
 /*   By: nmagomad <nmagomad@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 17:58:44 by nmagomad          #+#    #+#             */
-/*   Updated: 2025/08/21 18:20:09 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/08/21 20:02:25 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,39 @@ uint32_t	get_texture_color(mlx_image_t *texture, int tex_x, int tex_y)
 	return ((pixel[3] << 24) | (pixel[0] << 16) | (pixel[1] << 8) | pixel[2]);
 }
 
+/* void	prepare_wall_slice(t_game *game, t_raycast ray, int x)
+{
+	t_tex_info	d;
+	
+	if (ray.side == 0)
+		d.wall_x = game->player.y + ray.perpWallDist * ray.rayDirY;
+	else
+		d.wall_x = game->player.x + ray.perpWallDist * ray.rayDirX;
+	d.wall_x = floor(d.wall_x);
+	
+	d.tex_x = (int)(d.wall_x * (double)game->wall_image->width);
+	if ((ray.side == 0 && ray.rayDirX > 0) || (ray.side == 1 && ray.rayDirY < 0))
+			d.tex_x = game->wall_image->width - d.tex_x -1;
+	d.brightness_factor = 1.0 / (1 + ray.perpWallDist * 0.1);
+	if (d.brightness_factor > 1.0)
+		d.brightness_factor = 1.0;
+	if (d.brightness_factor < 0.2)
+		d.brightness_factor = 0.2;
+	if (ray.side == 1) 
+		d.brightness_factor *= 0.8;
+	d.step = 1.0 * (double)game->wall_image->height / ray.wall_height;
+	d. = (ray.wall_start - HEIGHT / 2 + ray.wall_height / 2) * step;
+
+
+} */
+
 
 void	render(t_game *game, int x, t_raycast ray)
 {
 	int		y;
 	double	wallX;
-	// int		wall_height;
 	int		texX;
 	int		texY;
-	
-
-	
-
 	if (ray.side == 0)
 		wallX = game->player.y + ray.perpWallDist * ray.rayDirY;
 	else
@@ -58,9 +79,6 @@ void	render(t_game *game, int x, t_raycast ray)
 	texX = (int)(wallX * (double)game->wall_image->width);
 	if ((ray.side == 0 && ray.rayDirX > 0) || (ray.side == 1 && ray.rayDirY < 0))
 			texX = game->wall_image->width - texX -1;
-	// wall_height = ray.wall_end - ray.wall_start;
-	// if (wall_height >= HEIGHT)
-		// wall_height = HEIGHT - 1;
 	double brightness_factor = 1.0 / (1 + ray.perpWallDist * 0.1);
 	if (brightness_factor > 1.0) brightness_factor = 1.0;
 	if (brightness_factor < 0.2) brightness_factor = 0.2;
@@ -84,15 +102,8 @@ void	render(t_game *game, int x, t_raycast ray)
 		}
 		else if (y >= ray.wall_start && y <= ray.wall_end) // Исправлено: y <= wall_end
 		{
-			// texY = (int)((double)(y - ray.wall_start ) / wall_height * game->wall_image->height);
-			// int ratio = (int)((double)(y - ray.wall_start) / wall_height);
-			// texY = (int)(ratio * (double)game->wall_image->height);
-			// texY = (int)(((y - ray.wall_start) * tex_step) % game->wall_image->height);
-			// if (texY >= (int)game->wall_image->height)
-				// texY = game->wall_image->height - 1;
-			// if (texY < 0)
-				// texY = 0;
-			texY = (int)texPos % (game->wall_image->height);
+			// texY = (int)texPos % (game->wall_image->height);
+			texY = (int)texPos & (game->wall_image->height - 1);
 			if (texY < 0)
 				texY += game->wall_image->height;
 			texPos += step;
