@@ -33,8 +33,8 @@
 # define D 100
 # define PXL 16 ///////////////
 
-# define WIDTH 1024
-# define HEIGHT 800
+# define WIDTH 800
+# define HEIGHT 600
 
 
 typedef struct s_player
@@ -60,7 +60,7 @@ typedef struct s_map_info
 	int			ceil_rgb[3];
 }	t_map_info;
 
-typedef struct s_raycast
+/* typedef struct s_raycast
 {
 	double	camera_x;
 	double	raydir_x;
@@ -78,7 +78,27 @@ typedef struct s_raycast
 	int		wall_height;
 	int		wall_start;
 	int		wall_end;
-}			t_raycast;
+}			t_raycast; */
+
+typedef struct s_raycast
+{
+    double	cameraX;
+	double	posX, posY;
+    double	dirX, dirY;
+    double	planeX, planeY;
+    double	rayDirX, rayDirY;
+    double	sideDistX, sideDistY;
+    double	deltaDistX, deltaDistY;
+    double	perpWallDist; 
+    int 	stepX, stepY;
+    int 	side;
+	int 	mapX;
+	int 	mapY;
+	int 	wall_height;
+	int 	wall_start;
+	int 	wall_end;
+	
+}	t_raycast;
 
 typedef struct s_game
 {
@@ -93,6 +113,9 @@ typedef struct s_game
 	double		oldtime;
 	double		first_frame;
 	int			**map;
+	int			map_width;
+	int			map_height;
+	int			DEBUG_FLAG;
 }				t_game;
 
 typedef enum e_texture

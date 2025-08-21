@@ -6,7 +6,7 @@
 /*   By: nmagomad <nmagomad@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:35:04 by nmagomad          #+#    #+#             */
-/*   Updated: 2025/08/18 17:39:41 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/08/21 18:18:54 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,11 @@ int	init(t_game *game)
 {
 	size_t	i;
 	size_t	j;
+	
 
+	game->DEBUG_FLAG = 0;
+
+	printf("%d, %d\n", game->map_info->start_pos[0], game->map_info->start_pos[1]);
 	if (game->map_info->start_pos[0])
 		game->player.x = game->map_info->start_pos[0];
 	game->player.y = game->map_info->start_pos[1];
@@ -33,6 +37,8 @@ int	init(t_game *game)
 	game->player.plane_x = 0;
 	game->player.plane_y = 0.66;
 	game->oldtime = 0;
+	game->map_width = game->map_info->y;
+	game->map_height = game->map_info->x;
 	
 	game->map = malloc(game->map_info->x * sizeof(int *));
 	if (!game->map)

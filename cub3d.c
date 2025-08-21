@@ -90,7 +90,7 @@ int	main(int ac, char **av)
 	if (ac != 2 || ft_check_arg(av[1], ".cub") != 0)
 		return (ft_printf("Error\n Map path/name isn`t valid\n"));
 	parse_map(av[1], map);
-	check_struct(map);
+	// check_struct(map);
 	/* game->mlx = mlx_init();
 	if (!game->mlx)
 		return (1);
@@ -176,14 +176,14 @@ void game_loop(void *param)
 		frame_time = (time - game->oldtime) / 1000.0;
 	}
 	
-	printf("Time: %f ms, FrameTime: %f s\n", time, frame_time);
-    if (frame_time > 0)
-        printf("FPS: %.2f\n", 1.0 / frame_time);
+	// printf("Time: %f ms, FrameTime: %f s\n", time, frame_time);
+    // if (frame_time > 0)
+        // printf("FPS: %.2f\n", 1.0 / frame_time);
     
     game->oldtime = time;
 	game->move_speed = frame_time * 5.0;
 	game->move_rotate = frame_time * 3.0;
-	printf("move speed: %f, rotate speed: %f\n", game->move_speed, game->move_rotate);
+	// printf("move speed: %f, rotate speed: %f\n", game->move_speed, game->move_rotate);
 	
     handle_movement(game);
     raycast(game);
