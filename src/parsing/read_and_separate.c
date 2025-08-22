@@ -21,10 +21,10 @@ char	**read_map(char *map_file)
 
 	fd = open(map_file, O_RDONLY);
 	if (fd < 0)
-		return (perror("open map file - Error\n"), NULL);
+		return (perror("open map file - Error\n"), NULL);////
 	map = malloc(sizeof(char *) * 108);
 	if (!map)
-		return (perror("map memory allocate - Error\n"), NULL);
+		return (perror("map memory allocate - Error\n"), NULL);/////
 	line = " ";
 	i = 0;
 	while (line != NULL)

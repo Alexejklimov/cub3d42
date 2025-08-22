@@ -3,19 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmagomad <nmagomad@student.42mulhouse.f    +#+  +:+       +#+        */
+/*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 10:31:57 by oklimov           #+#    #+#             */
-/*   Updated: 2025/08/18 14:41:25 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/08/22 11:33:22 by oklimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
 
-// void	clean_and_exit(t_map_info *map_info)
-// {
-
-// }
+void	clean_map_info(t_map_info *map_info)
+{
+	if (map_info->map)
+		free_map(map_info->map);
+	free(map_info);
+}
 
 void	free_map(char **map)
 {
@@ -30,7 +32,6 @@ void	free_map(char **map)
 		y++;
 	}
 	free(map);
-	map = NULL;
 }
 
 double	ft_get_time()

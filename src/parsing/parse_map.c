@@ -6,7 +6,7 @@
 /*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:56:02 by oklimov           #+#    #+#             */
-/*   Updated: 2025/08/08 17:04:40 by oklimov          ###   ########.fr       */
+/*   Updated: 2025/08/22 11:24:11 by oklimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	is_symbols_valid_only(char **map)
 		while (map[i][j] != '\n' && map[i][j] != '\0')
 		{
 			if (!ft_strchr("NSEW 10", (int)map[i][j]))
-				return (printf("Error\ninvalid symbol in map"), 0);
+				return (ft_printf("Error\ninvalid symbol in map"), 0);//////
 			if (ft_strchr("NSEW", map[i][j]))
 				flag++;
 			j++;
@@ -78,7 +78,7 @@ int	is_symbols_valid_only(char **map)
 		i++;
 	}
 	if (flag != 1)
-		return (perror("Error\nto many start positions"), 0);
+		return (ft_printf("Error\nto many start positions"), 0);///////
 	return (1);
 }
 
@@ -89,9 +89,9 @@ void	check_map_is_valid(char **map, t_map_info *map_info)
 		free_map(map);
 	}
 	if (!verify_texture(map_info))
-		ft_printf("Error\nTexture data not valid\n");
+		ft_printf("Error\nTexture data not valid\n");///////
 	if (!check_walls_is_valid(map))
-		ft_printf("Error\nWalls is invalid\n");
+		ft_printf("Error\nWalls is invalid\n");///////
 	make_map_rectangular(map, map_info);
 	free_map(map);
 }
