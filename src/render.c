@@ -6,7 +6,7 @@
 /*   By: nmagomad <nmagomad@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 17:58:44 by nmagomad          #+#    #+#             */
-/*   Updated: 2025/08/24 15:54:31 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/08/24 19:05:53 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ void	render(t_game *game, int x, t_raycast *ray, t_wall *wall)
 	while (y < SCREEN_HEIGHT)
 	{
 		if (y < ray->wall_start)
-			put_pixel(game->image, x, y, create_color(135, 206, 235, 255)); //Потолок (небо); светло-голубой
+			// put_pixel(game->image, x, y, create_color(135, 206, 235, 255)); //Потолок (небо); светло-голубой
+			put_pixel(game->image, x, y, game->ceil_color);
 		else if (y >= ray->wall_start && y <= ray->wall_end) // Исправлено: y <= wall_end
 		{
 			// wall->tex_y = (int)texPos % (game->wall_image->height);
@@ -88,7 +89,8 @@ void	render(t_game *game, int x, t_raycast *ray, t_wall *wall)
 			// put_pixel(game->image, x, y, create_color(r, g, b, 255));
 		}
 		else
-			put_pixel(game->image, x, y, create_color(34, 139, 34, 255)); // Пол; зеленый
+			// put_pixel(game->image, x, y, create_color(34, 139, 34, 255)); // Пол; зеленый
+			put_pixel(game->image, x, y, game->floor_color);
 		y++;
 	}
 }

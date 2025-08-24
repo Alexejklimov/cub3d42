@@ -6,7 +6,7 @@
 /*   By: nmagomad <nmagomad@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:35:04 by nmagomad          #+#    #+#             */
-/*   Updated: 2025/08/24 18:57:14 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/08/24 19:05:01 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ static void	convet_map_to_int(t_game *game)
 		j = 0;
 		while (j < game->map_info->y)
 		{
-
 			if (game->map_info->map[i][j] == '1')
 				game->map[i][j] = 1;
 			else
@@ -61,6 +60,7 @@ static void	convet_map_to_int(t_game *game)
 		i++;
 	}
 }
+
 /*
  * | Направление | dirX | dirY | planeX | planeY |
  * | ----------- | ---- | ---- | ------ | ------ |
@@ -73,7 +73,7 @@ static	void	init_direction(t_game *game)
 {
 	char		dir;
 	t_vector	direction[256];
-	
+
 	if (!game || !game->map_info)
 		panic("pointer `game or man_info` is NULL");
 	ft_memset(&direction, 0, sizeof(direction));
@@ -82,7 +82,6 @@ static	void	init_direction(t_game *game)
 	direction['S'] = (t_vector){0, 1, -0.66, 0};
 	direction['E'] = (t_vector){1, 0, 0, 0.66};
 	direction['W'] = (t_vector){-1, 0, 0, 0.66};
-	printf("%f, %f, %f, %f\n", game->player.dx, game->player.dy, game->player.plane_x, game->player.plane_y);
 	if (direction[(int)dir].dirx || direction[(int)dir].diry
 	|| direction[(int)dir].planex || direction[(int)dir].planey)
 	{
@@ -93,16 +92,15 @@ static	void	init_direction(t_game *game)
 	}
 	else
 		panic("Error: orientation of spwning is rong");
-	printf("%f, %f, %f, %f\n", game->player.dx, game->player.dy, game->player.plane_x, game->player.plane_y);
 }
 
-static void	init_ceiling_floor_colort(t_game *game)
+static void	init_ceiling_floor_color(t_game *game)
 {
 	int	r;
 	int	g;
 	int	b;
 
-	if (!game || game->map_info)
+	if (!game || !game->map_info)
 		panic("pointer `game or man_info` is NULL");
 	r = game->map_info->ceil_rgb[0];
 	g = game->map_info->ceil_rgb[1];
@@ -116,8 +114,6 @@ static void	init_ceiling_floor_colort(t_game *game)
 
 int	init(t_game *game)
 {
-
-	printf("%d, %d\n", game->map_info->start_pos[0], game->map_info->start_pos[1]);
 	if (game->map_info->start_pos[0])
 		game->player.x = game->map_info->start_pos[0];
 	game->player.y = game->map_info->start_pos[1];
@@ -127,10 +123,10 @@ int	init(t_game *game)
 	// game->player.plane_y = 0.66;
 	init_direction(game);
 	init_ceiling_floor_color(game);
+	printf("%u\n", game->floor_color);
 	game->oldtime = 0;
 	game->map_width = game->map_info->y;
 	game->map_height = game->map_info->x;
-	
 	if (allocate_map(game) != 0)
 		return (-1);
 	convet_map_to_int(game);
