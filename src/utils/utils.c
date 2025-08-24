@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nmagomad <nmagomad@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 10:31:57 by oklimov           #+#    #+#             */
-/*   Updated: 2025/08/22 11:33:22 by oklimov          ###   ########.fr       */
+/*   Updated: 2025/08/24 15:48:13 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ void	free_map(char **map)
 	free(map);
 }
 
-double	ft_get_time()
+double	ft_get_time(void)
 {
-	double	time = 0;
-	struct timeval tv;
-	
-	
+	struct timeval	tv;
+	double			time;
+
+	time = 0;
 	if (gettimeofday(&tv, NULL) == -1)
 	{
 		perror("error gettimeofday");
@@ -47,4 +47,10 @@ double	ft_get_time()
 	}
 	time = tv.tv_sec * 1000 + tv.tv_usec / 1000;
 	return (time);
+}
+
+void	panic(char *s)
+{
+	printf("%s\n", s);
+	exit(1);
 }

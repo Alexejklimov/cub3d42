@@ -10,21 +10,20 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = cub3d
+NAME	=	cub3d
 
-SRCS =  cub3d.c src/parsing/read_and_separate.c src/parsing/parse_map.c \
-		src/utils/utils.c src/parsing/parsing_utils.c \
-		src/handle_movement.c src/init.c src/raycasting.c src/render.c
+SRCS	= cub3d.c src/parsing/read_and_separate.c src/parsing/parse_map.c 		\
+		src/utils/utils.c src/parsing/parsing_utils.c src/init.c 				\
+		src/handle_movement.c src/raycasting.c src/render.c src/render_utils.c	\
 
-OBJS = $(SRCS:.c=.o)
+OBJS	= $(SRCS:.c=.o)
 
-LIBFT = libraries/libft/libft.a
+LIBFT	= libraries/libft/libft.a
+LIBMLX	= libraries/MLX42/build/libmlx42.a
+PRINTF	= libraries/printf/libftprintf.a
 
-LIBMLX = libraries/MLX42/build/libmlx42.a
-
-PRINTF = libraries/printf/libftprintf.a
-
-HEADERS := -I./libraries/printf -I./libraries/MLX42/include -I./libraries/libft -I./libraries/gnl -g
+# HEADERS := -I./libraries/printf -I./libraries/MLX42/include -I./libraries/libft -I./libraries/gnl -g
+HEADERS := -I./libraries/printf -I./libraries/MLX42/include -I./libraries/libft 
 
 CC = cc
 CFLAGS = -Wall -Werror -Wextra -O3 -g

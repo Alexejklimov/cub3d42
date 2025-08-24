@@ -90,7 +90,7 @@ int	main(int ac, char **av)
 	if (ac != 2 || ft_check_arg(av[1], ".cub") != 0)
 		return (ft_printf("Error\n Map path/name isn`t valid\n"));
 	parse_map(av[1], map);
-	// check_struct(map);
+	check_struct(map);
 	/* game->mlx = mlx_init();
 	if (!game->mlx)
 		return (1);
@@ -110,22 +110,20 @@ int	main(int ac, char **av)
 		return (EXIT_FAILURE);
 	}
 		
-	game->mlx = mlx_init(WIDTH, HEIGHT, "Simple Raycaster - MLX42", false);
+	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Simple Raycaster - MLX42", false);
     if (!game->mlx)
 	{
         printf("Ошибка инициализации MLX42\n");
         return (EXIT_FAILURE);
     }
-    
     // Создание изображения для рендеринга
-    game->image = mlx_new_image(game->mlx, WIDTH, HEIGHT);
+    game->image = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
     if (!game->image)
 	{
         printf("Ошибка создания изображения\n");
         mlx_terminate(game->mlx);
         return (EXIT_FAILURE);
     }
-    
     // Добавляем изображение в окно
     if (mlx_image_to_window(game->mlx, game->image, 0, 0) < 0)
 	{
@@ -133,7 +131,6 @@ int	main(int ac, char **av)
         mlx_terminate(game->mlx);
         return (EXIT_FAILURE);
     }
-	
 	// init texture 
 	xpm_t	*wall_texture = mlx_load_xpm42(game->map_info->texture[0]);
 	if (!wall_texture)
@@ -145,12 +142,8 @@ int	main(int ac, char **av)
 	game->wall_image = mlx_texture_to_image(game->mlx, &wall_texture->texture);
 
 	mlx_loop_hook(game->mlx, game_loop, game);
-    
     mlx_loop(game->mlx);
-    
     mlx_terminate(game->mlx);
-
-
 	return (0);
 }
 
@@ -158,11 +151,11 @@ int	main(int ac, char **av)
 
 void game_loop(void *param)
 {
-    t_game *game = (t_game *)param;
+    t_game	*game;
 	double	time;
 	double	frame_time;
 	
-
+	game = (t_game *)param;
 	time = ft_get_time();
 	if (game->first_frame)
 	{
@@ -172,19 +165,15 @@ void game_loop(void *param)
 		
 	}
 	else
-	{
 		frame_time = (time - game->oldtime) / 1000.0;
-	}
-	
+
 	// printf("Time: %f ms, FrameTime: %f s\n", time, frame_time);
     // if (frame_time > 0)
         // printf("FPS: %.2f\n", 1.0 / frame_time);
-    
     game->oldtime = time;
 	game->move_speed = frame_time * 5.0;
 	game->move_rotate = frame_time * 3.0;
 	// printf("move speed: %f, rotate speed: %f\n", game->move_speed, game->move_rotate);
-	
     handle_movement(game);
     raycast(game);
 }

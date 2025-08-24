@@ -33,9 +33,17 @@
 # define D 100
 # define PXL 16 ///////////////
 
-# define WIDTH 800
-# define HEIGHT 600
+# define SCREEN_WIDTH 800
+# define SCREEN_HEIGHT 600
 
+
+typedef struct s_vector
+{
+	double	dirx;
+	double	diry;
+	double	planex;
+	double	planey;
+}			t_vector;
 
 typedef struct s_player
 {
@@ -50,55 +58,52 @@ typedef struct s_player
 
 typedef struct s_map_info
 {
-	size_t		x; // heigth 
-	size_t		y; // width
-	char		**map;
-	int			start_pos[2];
-	char		start_orient;
-	char		*texture[4];
-	int			floor_rgb[3];
-	int			ceil_rgb[3];
-}	t_map_info;
-
-/* typedef struct s_raycast
-{
-	double	camera_x;
-	double	raydir_x;
-	double	raydir_y;
-	double	side_dist_x;
-	double	side_dist_y;
-	double	delt_dist_x;
-	double	delt_dist_y;
-	double	perp_wall_dist;
-	int		step_x;
-	int		step_y;
-	int		side;
-	int		map_x;
-	int		map_y;
-	int		wall_height;
-	int		wall_start;
-	int		wall_end;
-}			t_raycast; */
+	size_t	x; // heigth 
+	size_t	y; // width
+	char	**map;
+	char	start_orient;
+	int		start_pos[2];
+	char	*texture[4];
+	int		floor_rgb[3];
+	int		ceil_rgb[3];
+}			t_map_info;
 
 typedef struct s_raycast
 {
     double	camera_x;
 	double	pos_x;
 	double	pos_y;
-    double	dirX, dirY;
-    double	planeX, planeY;
-    double	rayDirX, rayDirY;
-    double	sideDistX, sideDistY;
-    double	deltaDistX, deltaDistY;
-    double	perpWallDist; 
-    int 	stepX, stepY;
+    double	dir_x;
+    double	dir_y;
+    double	plane_x;
+    double	plane_y;
+    double	raydir_x;
+    double	raydir_y;
+    double	sidedist_x;
+    double	sidedist_y;
+    double	deltadist_x;
+    double	deltadist_y;
+    double	perpwalldist; 
+    int 	step_x;
+    int 	step_y;
     int 	side;
-	int 	mapX;
-	int 	mapY;
+	int 	map_x;
+	int 	map_y;
 	int 	wall_height;
 	int 	wall_start;
 	int 	wall_end;
 }			t_raycast;
+
+typedef struct s_wall
+{
+	int		height;
+	int		start;
+	int		end;
+	int		tex_x;
+	int		tex_y;
+	double	wall_x;
+	double	brightness;
+}			t_wall;
 
 typedef struct s_tex_info
 {
@@ -107,18 +112,6 @@ typedef struct s_tex_info
 	mlx_image_t	*west_tex;
 	mlx_image_t	*east_tex;
 	mlx_image_t	*texture;
-	double		wall_x;
-	double		brightness_factor;
-	double		step;
-	double		tex_pos;
-	int			tex_x;
-	int			tex_y;
-
-	int			rgba[4];
-
-
-
-	
 }				t_tex_info;
 
 typedef struct s_game
@@ -128,6 +121,8 @@ typedef struct s_game
 	mlx_image_t	*wall_image;
 	void		*win_mlx;//
 	t_map_info	*map_info;
+	uint32_t	ceil_color;
+	uint32_t	floor_color;
 	t_player	player;
 	double		move_speed;
 	double		move_rotate;
@@ -151,21 +146,31 @@ typedef enum e_texture
 
 //parsing of map
 
-char			**read_map(char *map_file);
-void			rgb_parse(char *line, int *dest);
-int				parse_texture(char **file, t_map_info *map_info);
-char			**separate_map(char **file, t_map_info *map_info);
-void			parse_map(char *file, t_map_info *map_info);
-int				verify_texture(t_map_info *map);
-void			check_map_is_valid(char **map, t_map_info *map_info);
-int				is_symbols_valid_only(char **map);
-int				check_walls_is_valid(char **map);
-void			make_map_rectangular(char **map, t_map_info *map_info);
-void			free_map(char **map);
-void			fill_start_pos_orient(t_map_info *map_info);
-void			texture_end_fixer(t_map_info *map);
-void			fill_start_pos_orient(t_map_info *map_info);
-size_t			longest_row(char	**map);
-char			*fix_line(char	*str, size_t max_len);
+char	**read_map(char *map_file);
+void	rgb_parse(char *line, int *dest);
+int		parse_texture(char **file, t_map_info *map_info);
+char	**separate_map(char **file, t_map_info *map_info);
+void	parse_map(char *file, t_map_info *map_info);
+int		verify_texture(t_map_info *map);
+void	check_map_is_valid(char **map, t_map_info *map_info);
+int		is_symbols_valid_only(char **map);
+int		check_walls_is_valid(char **map);
+void	make_map_rectangular(char **map, t_map_info *map_info);
+void	free_map(char **map);
+void	fill_start_pos_orient(t_map_info *map_info);
+void	texture_end_fixer(t_map_info *map);
+void	fill_start_pos_orient(t_map_info *map_info);
+size_t	longest_row(char	**map);
+char	*fix_line(char	*str, size_t max_len);
+
+
+// Render utils
+
+uint32_t	get_texture_color(mlx_image_t *texture, int tex_x, int tex_y);
+uint32_t	apply_brightness(uint32_t color, double brightness, int alpha);
+uint32_t	create_color(int r, int g, int b, int a);
+void		put_pixel(mlx_image_t *image, int x, int y, uint32_t color);
+
+void	panic(char *s);
 
 #endif
