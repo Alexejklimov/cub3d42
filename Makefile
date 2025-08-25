@@ -10,24 +10,29 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME	=	cub3d
+NAME		:=	cub3d
 
-SRCS	= cub3d.c src/parsing/read_and_separate.c src/parsing/parse_map.c 		\
-		src/utils/utils.c src/parsing/parsing_utils.c src/init.c 				\
-		src/handle_movement.c src/raycasting.c src/render.c src/render_utils.c	\
+SRCS		:= cub3d.c src/parsing/read_and_separate.c src/parsing/parse_map.c 	\
+			src/utils/utils.c src/parsing/parsing_utils.c src/init.c 			\
+			src/handle_movement.c src/raycasting.c src/render.c					\
+			src/render_utils.c	\
 
-OBJS	= $(SRCS:.c=.o)
+OBJS		:= $(SRCS:.c=.o)
 
-LIBFT	= libraries/libft/libft.a
-LIBMLX	= libraries/MLX42/build/libmlx42.a
-PRINTF	= libraries/printf/libftprintf.a
+LIBFT_DIR	:= libraries/libft
+PRINTF_DIR	:= libraries/printf
+MLX_DIR		:= libraries/MLX42
+
+LIBFT		:= $(LIBFT_DIR)/libft.a
+LIBMLX		:= $(MLX_DIR)/build/libmlx42.a
+PRINTF		:= $(PRINTF_DIR)/libftprintf.a
 
 # HEADERS := -I./libraries/printf -I./libraries/MLX42/include -I./libraries/libft -I./libraries/gnl -g
-HEADERS := -I./libraries/printf -I./libraries/MLX42/include -I./libraries/libft 
+HEADERS 	:= -I./$(PRINTF_DIR)/include -I./$(MLX_DIR)/include -I./$(LIBFT_DIR)
 
-CC = cc
-CFLAGS = -Wall -Werror -Wextra -O3 -g
-MLX_FLAGS = -ldl -lglfw -pthread -lm
+CC			= cc
+CFLAGS		= -Wall -Werror -Wextra -O3 -g
+MLX_FLAGS 	= -ldl -lglfw -pthread -lm
 
 $(NAME): $(OBJS) ${LIBMLX} ${PRINTF} ${LIBFT}
 	@${CC} ${OBJS} -o ${NAME} ${PRINTF} ${LIBFT} ${LIBMLX} ${MLX_FLAGS}
@@ -39,6 +44,7 @@ all: build
 
 clean:
 	@rm -f $(OBJS)
+	@rm -fr $(MLX_DIR)/build
 	@make --no-print-directory -C libraries/printf clean
 	@make --no-print-directory -C libraries/libft clean
 
