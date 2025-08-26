@@ -152,9 +152,13 @@ int		parse_texture(char **file, t_map_info *map_info);
 char	**separate_map(char **file, t_map_info *map_info);
 void	parse_map(char *file, t_map_info *map_info);
 int		verify_texture(t_map_info *map);
-void	check_map_is_valid(char **map, t_map_info *map_info);
+int		check_map_is_valid(char **map, t_map_info *map_info);
 int		is_symbols_valid_only(char **map);
 int		check_walls_is_valid(char **map);
+void	clean_map_info(t_map_info *map_info);
+int		map_info_fill_checker(t_map_info *map);
+char	*ft_strcpy(char	*dest, char	*src);
+
 void	make_map_rectangular(char **map, t_map_info *map_info);
 void	free_map(char **map);
 void	fill_start_pos_orient(t_map_info *map_info);

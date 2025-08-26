@@ -22,7 +22,7 @@ char	**read_map(char *map_file)
 	fd = open(map_file, O_RDONLY);
 	if (fd < 0)
 		return (perror("open map file - Error\n"), NULL);////
-	map = malloc(sizeof(char *) * 108);
+	map = malloc(sizeof(char *) * 256); //////////
 	if (!map)
 		return (perror("map memory allocate - Error\n"), NULL);/////
 	line = " ";
@@ -35,27 +35,56 @@ char	**read_map(char *map_file)
 	}
 	close(fd);
 	map[i] = NULL;
+	if (i == 0)
+		printf("empty file %d", i);
 	return (map);
 }
 
+// void	rgb_parse(char *line, int *dest)
+// {
+// 	int	i;
+// 	int	texture_index;
+// 	int	buffer;
+
+// 	buffer = 0;
+// 	i = 0;
+// 	texture_index = 0;
+// 	while (line[i] && texture_index < 3)
+// 	{
+// 		buffer = 0;
+// 		while (ft_isdigit(line[i]))
+// 			buffer = (buffer * 10) + (line[i++] - '0');
+// 		if (buffer)
+// 			dest[texture_index++] = buffer;
+// 		i++;
+// 	}
+// }
+
 void	rgb_parse(char *line, int *dest)
 {
-	int	i;
-	int	texture_index;
-	int	buffer;
+	char	**split_arr;
+	int		i;
 
-	buffer = 0;
+	split_arr = ft_split(line, ',');
+	if (!split_arr)
+		panic("malloc problem");
 	i = 0;
-	texture_index = 0;
-	while (line[i] && texture_index < 3)
+	while (split_arr[i])
+		i++;
+	if (i != 3)
+		{
+			panic("Error\ncolor info incorrect");
+		}
+	i = 0;
+	while (i < 3)
 	{
-		buffer = 0;
-		while (ft_isdigit(line[i]))
-			buffer = (buffer * 10) + (line[i++] - '0');
-		if (buffer)
-			dest[texture_index++] = buffer;
+		if (ft_atoi(split_arr[i]) >= 0)
+			dest[i] = ft_atoi(split_arr[i]);
+		else
+			panic("lower then 0");
 		i++;
 	}
+	free_map(split_arr);
 }
 
 int	verify_texture(t_map_info *map)
@@ -75,8 +104,7 @@ int	verify_texture(t_map_info *map)
 	while (i < 3)
 	{
 		if (!(map->ceil_rgb[i] >= 0 && map->ceil_rgb[i] <= 255
-				&& map->floor_rgb[i] && map->floor_rgb[i] >= 0
-				&& map->floor_rgb[i] <= 255))
+				&& map->floor_rgb[i] >= 0 && map->floor_rgb[i] <= 255))
 			return (0);
 		i++;
 	}
@@ -88,21 +116,19 @@ int	parse_texture(char **file, t_map_info *map_info)
 	int	i;
 
 	i = 0;
-	while (file[i][0] != '1' && file[i][0] != ' ' && file[i][0] != '\t')
+	while (file[i] != NULL && file[i][0] != '1' && file[i][0] != ' ' && file[i][0] != '\t')
 	{
-		if (ft_strlen(file[i]) == 0)
-			i++;
-		if (!ft_strncmp((char *)file[i], "NO", 2))
-			map_info->texture[0] = ft_strdup(file[i] + 3);
-		if (!ft_strncmp((char *)file[i], "SO", 2))
-			map_info->texture[1] = ft_strdup(file[i] + 3);
-		if (!ft_strncmp((char *)file[i], "WE", 2))
-			map_info->texture[2] = ft_strdup(file[i] + 3);
-		if (!ft_strncmp((char *)file[i], "EA", 2))
-			map_info->texture[3] = ft_strdup(file[i] + 3);
-		if (!ft_strncmp((char *)file[i], "F", 1))
+		if (!ft_strncmp((char *)file[i], "NO ", 3))
+			map_info->texture[0] = ft_strdup(file[i] + 3);//////////убрать маг.число 3/////
+		if (!ft_strncmp((char *)file[i], "SO ", 3))
+			map_info->texture[1] = ft_strdup(file[i] + 3);//////////убрать маг.число 3/////
+		if (!ft_strncmp((char *)file[i], "WE ", 3))
+			map_info->texture[2] = ft_strdup(file[i] + 3);//////////убрать маг.число 3/////
+		if (!ft_strncmp((char *)file[i], "EA ", 3))
+			map_info->texture[3] = ft_strdup(file[i] + 3);//////////убрать маг.число 3/////
+		if (!ft_strncmp((char *)file[i], "F ", 2))
 			rgb_parse(file[i] + 2, map_info->floor_rgb);
-		if (!ft_strncmp((char *)file[i], "C", 1))
+		if (!ft_strncmp((char *)file[i], "C ", 2))
 			rgb_parse(file[i] + 2, map_info->ceil_rgb);
 		i++;
 	}
@@ -117,6 +143,8 @@ char	**separate_map(char **file, t_map_info *map_info)
 	char		**separated_map;
 
 	i = parse_texture(file, map_info);
+	if (i == 0)
+		return (free_map(file), NULL);
 	acc = i;
 	while (file[acc] != NULL)
 		acc++;

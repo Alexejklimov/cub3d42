@@ -1,11 +1,10 @@
-NO maps/textures/exit0.xpm
-SO maps/textures/floor.xpm
-WE maps/textures/peppa1.xpm
-EA maps/textures/wall.xpm
-ED maps/textures/wall.xpm
+NO maps/textures/wolfenstein/bluestone.xpm42
+SO textures/wolfenstein/purple_stone.xpm
+WE textures/wolfenstein/red_brick.xpm
+EA textures/wolfenstein/wood.xpm
 
 F 210,100,20
-C 210,jjj30,10
+C 210,30,10
 
       111111111111
     11100000000001

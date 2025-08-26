@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmagomad <nmagomad@student.42mulhouse.f    +#+  +:+       +#+        */
+/*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 10:31:57 by oklimov           #+#    #+#             */
-/*   Updated: 2025/08/24 15:48:13 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/08/26 21:49:37 by oklimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	clean_map_info(t_map_info *map_info)
 	if (map_info->map)
 		free_map(map_info->map);
 	free(map_info);
+	exit (1);
 }
 
 void	free_map(char **map)
@@ -53,4 +54,21 @@ void	panic(char *s)
 {
 	printf("%s\n", s);
 	exit(1);
+}
+
+int	map_info_fill_checker(t_map_info *map)
+{
+	int i;
+
+	if (!map->start_orient)
+		return (ft_printf("ERROR fill info %c", map->start_orient), 0);
+	i = 0;
+	while (i < 4)
+	{
+		if (!map->texture[i])
+			return (ft_printf("ERROR fill info text"), 0);
+		i++;
+	}
+	i = 0;
+	return (1);
 }

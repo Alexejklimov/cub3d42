@@ -6,7 +6,7 @@
 /*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:56:02 by oklimov           #+#    #+#             */
-/*   Updated: 2025/08/22 11:24:11 by oklimov          ###   ########.fr       */
+/*   Updated: 2025/08/26 22:35:31 by oklimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,20 @@ void	parse_map(char *file, t_map_info *map_info)
 	char	**buffer_map;
 
 	buffer_map = separate_map(read_map(file), map_info);
-	check_map_is_valid(buffer_map, map_info);
+	if (!buffer_map)
+		exit (1);
+	if (!check_map_is_valid(buffer_map, map_info))
+	{
+		free_map(buffer_map);
+		clean_map_info(map_info);
+	}
 	fill_start_pos_orient(map_info);
+	if (!map_info_fill_checker(map_info))
+	{
+		free_map(buffer_map);
+		clean_map_info(map_info);
+	}
+	free_map(buffer_map);
 }
 
 static int	is_valid_surrounding(char **map, size_t x, size_t y)
@@ -70,7 +82,7 @@ int	is_symbols_valid_only(char **map)
 		while (map[i][j] != '\n' && map[i][j] != '\0')
 		{
 			if (!ft_strchr("NSEW 10", (int)map[i][j]))
-				return (ft_printf("Error\ninvalid symbol in map"), 0);//////
+				return (ft_printf("Error\ninvalid symbol in map"), 0);
 			if (ft_strchr("NSEW", map[i][j]))
 				flag++;
 			j++;
@@ -78,21 +90,19 @@ int	is_symbols_valid_only(char **map)
 		i++;
 	}
 	if (flag != 1)
-		return (ft_printf("Error\nto many start positions"), 0);///////
+		return (ft_printf("Error\nmap file is incorrect"), 0);
 	return (1);
 }
 
-void	check_map_is_valid(char **map, t_map_info *map_info)
+int	check_map_is_valid(char **map, t_map_info *map_info)
 {
 	if (!is_symbols_valid_only(map))
-	{
-		free_map(map);
-	}
+		return (0);
 	if (!verify_texture(map_info))
-		ft_printf("Error\nTexture data not valid\n");///////
+		return (ft_printf("Error\nTexture data not valid\n"), 0);
 	if (!check_walls_is_valid(map))
-		ft_printf("Error\nWalls is invalid\n");///////
+		return (ft_printf("Error\nWalls is invalid\n"), 0);
 	make_map_rectangular(map, map_info);
-	free_map(map);
+	return (1);
 }
-/// add exits if error
+
