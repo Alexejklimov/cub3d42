@@ -6,7 +6,7 @@
 /*   By: nmagomad <nmagomad@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 15:45:50 by nmagomad          #+#    #+#             */
-/*   Updated: 2025/08/25 19:05:40 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/08/27 14:57:47 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,20 @@ void	put_pixel(mlx_image_t *image, int x, int y, uint32_t color)
 uint32_t	create_color(int r, int g, int b, int a)
 {
 	return (r << 24 | g << 16 | b << 8 | a);
+}
+
+double	calculate_wall_brightness(t_raycast *ray)
+{
+	double	brightness;
+
+	brightness = 1.0 / (1 + ray->perpwalldist * 0.1);
+	if (brightness > 1.0)
+		brightness = 1.0;
+	if (brightness < 0.2)
+		brightness = 0.2;
+	if (ray->side == 1)
+		brightness *= 0.8;
+	return (brightness);
 }
 
 /**
@@ -106,15 +120,14 @@ uint32_t	get_texture_color(mlx_image_t *texture, int tex_x, int tex_y)
 	pixel = &texture->pixels[(tex_y * texture->width + tex_x) * 4];
 	return ((pixel[3] << 24) | (pixel[0] << 16) | (pixel[1] << 8) | pixel[2]);
 }
-uint32_t	_get_texture_color(t_game *game, t_raycast *ray,int tex_x, int tex_y)
+
+mlx_image_t	*get_curr_texture(t_game *game, t_raycast *ray)
 {
-	uint8_t		*pixel;
 	mlx_image_t	*texture;
-	
+
 	if (ray->side == 0)
 	{
-		// if (ray->dir_x < 0)
-		if (ray->raydir_x >0)
+		if (ray->raydir_x > 0)
 			texture = game->walls[WEST];
 		else
 			texture = game->walls[EAST];
@@ -126,10 +139,5 @@ uint32_t	_get_texture_color(t_game *game, t_raycast *ray,int tex_x, int tex_y)
 		else
 			texture = game->walls[SOUTH];
 	}
-
-	if (tex_x < 0 || tex_x >= (int)texture->width
-		|| tex_y < 0 || tex_y >= (int)texture->height)
-		return (0xFF000000);
-	pixel = &texture->pixels[(tex_y * texture->width + tex_x) * 4];
-	return ((pixel[3] << 24) | (pixel[0] << 16) | (pixel[1] << 8) | pixel[2]);
+	return (texture);
 }

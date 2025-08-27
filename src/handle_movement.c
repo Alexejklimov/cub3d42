@@ -6,7 +6,7 @@
 /*   By: nmagomad <nmagomad@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 13:36:53 by nmagomad          #+#    #+#             */
-/*   Updated: 2025/08/24 17:42:19 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/08/27 14:23:02 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ void	handle_movement(t_game *game)
 	if (mlx_is_key_down(game->mlx, MLX_KEY_D))
 		move(game, game->player.plane_x, game->player.plane_y, 1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
-		rotate(game, -1);
-	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
 		rotate(game, 1);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
+		rotate(game, -1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(game->mlx);
 }

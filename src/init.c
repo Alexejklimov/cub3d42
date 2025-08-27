@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmagomad <nmagomad@student.42mulhouse.f    +#+  +:+       +#+        */
+/*   By: nmagomad <nmagomad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:35:04 by nmagomad          #+#    #+#             */
-/*   Updated: 2025/08/25 17:53:46 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/08/27 15:12:59 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,16 @@ static	void	init_direction(t_game *game)
 		panic("Error: Pointer `game or man_info` is NULL");
 	ft_memset(&direction, 0, sizeof(direction));
 	dir = game->map_info->start_orient;
-	direction['N'] = (t_vector){0, -1, 0.66, 0};
-	direction['S'] = (t_vector){0, 1, -0.66, 0};
-	direction['E'] = (t_vector){1, 0, 0, 0.66};
-	direction['W'] = (t_vector){-1, 0, 0, 0.66};
+	// direction['N'] = (t_vector){0, -1, 0.66, 0}; // old
+	direction['N'] = (t_vector){-1, 0, 0, 0.66};
+	// direction['S'] = (t_vector){0, 1, -0.66, 0}; // old
+	direction['S'] = (t_vector){1, 0, 0, 0.66};
+	// direction['E'] = (t_vector){1, 0, 0, 0.66}; // old
+	direction['E'] = (t_vector){0, 1, -0.66, 0};
+	// direction['W'] = (t_vector){-1, 0, 0, 0.66}; //old
+	direction['W'] = (t_vector){0, -1, 0.66, 0};
 	if (direction[(int)dir].dirx || direction[(int)dir].diry
-	|| direction[(int)dir].planex || direction[(int)dir].planey)
+		|| direction[(int)dir].planex || direction[(int)dir].planey)
 	{
 		game->player.dx = direction[(int)dir].dirx;
 		game->player.dy = direction[(int)dir].diry;
@@ -95,7 +99,7 @@ static	void	init_direction(t_game *game)
 	}
 	else
 		panic("Error: orientation of spwning is rong");
-	}
+}
 
 static void	init_ceiling_floor_color(t_game *game)
 {
@@ -146,27 +150,23 @@ int	load_texture(t_game *game)
 void	init_mlx(t_game *game)
 {
 	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Cub3D", false);
-    if (!game->mlx)
+	if (!game->mlx)
 		errexit(game, "Error: init MLX");
 	game->image = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
-    if (!game->image)
-		errexit(game,"Error: creat image");
-    if (mlx_image_to_window(game->mlx, game->image, 0, 0) < 0)
-		errexit(game,"Error: creat image");
+	if (!game->image)
+		errexit(game, "Error: creat image");
+	if (mlx_image_to_window(game->mlx, game->image, 0, 0) < 0)
+		errexit(game, "Error: creat image");
 	if (load_texture(game) != 0)
 		errexit(game, 0);
-}	
+}
 
 int	init(t_game *game)
 {
-
 	if (game->map_info->start_pos[0])
 		game->player.x = game->map_info->start_pos[0] + 0.5;
-	game->player.y = game->map_info->start_pos[1]+ 0.5;
-	// game->player.dx = -1;
-	// game->player.dy = 0;
-	// game->player.plane_x = 0;
-	// game->player.plane_y = 0.66;
+	if (game->map_info->start_pos[1])
+	game->player.y = game->map_info->start_pos[1] + 0.5;
 	init_direction(game);
 	init_ceiling_floor_color(game);
 	game->oldtime = 0;

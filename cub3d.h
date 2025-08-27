@@ -70,6 +70,20 @@ typedef struct s_map_info
 	int		ceil_rgb[3];
 }			t_map_info;
 
+
+typedef struct s_wall
+{
+	int		height;
+	int		start;
+	int		end;
+	int		tex_x;
+	int		tex_y;
+	double	wall_x;
+	double	brightness;
+	double	tex_step;
+	double	tex_pos;
+}			t_wall;
+
 typedef struct s_raycast
 {
     double	camera_x;
@@ -94,18 +108,8 @@ typedef struct s_raycast
 	int 	wall_height;
 	int 	wall_start;
 	int 	wall_end;
+	t_wall	wall;
 }			t_raycast;
-
-typedef struct s_wall
-{
-	int		height;
-	int		start;
-	int		end;
-	int		tex_x;
-	int		tex_y;
-	double	wall_x;
-	double	brightness;
-}			t_wall;
 
 typedef struct s_tex_info
 {
@@ -143,10 +147,10 @@ typedef struct s_game
 
 typedef enum e_texture
 {
-	NORD = 0,
-	SOUTH,
-	WEST,
-	EAST,
+	NORD = 3,
+	SOUTH = 2,
+	WEST = 1,
+	EAST = 0,
 	FLOOR,
 	CEIL
 }	t_texture;
@@ -164,7 +168,6 @@ int		is_symbols_valid_only(char **map);
 int		check_walls_is_valid(char **map);
 void	clean_map_info(t_map_info *map_info);
 int		map_info_fill_checker(t_map_info *map);
-char	*ft_strcpy(char	*dest, char	*src);
 
 void	make_map_rectangular(char **map, t_map_info *map_info);
 void	free_map(char **map);
