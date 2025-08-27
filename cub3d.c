@@ -12,15 +12,12 @@
 
 #include "cub3d.h"
 
-
-
 void	game_loop(void *param);
 int		init(t_game *game);
 void	raycast(t_game *game);
 void	handle_movement(t_game *game);
 double	ft_get_time();
 void	load_texture(t_game *game);
-
 
 void	debug_print(t_game *game)
 {
@@ -94,6 +91,31 @@ void	check_struct(t_map_info *map)
 }
 //////////////////// service function to verify struct t_map_info
 
+void game_loop(void *param)
+{
+    t_game	*game;
+	double	time;
+	double	frame_time;
+	
+	game = (t_game *)param;
+	time = ft_get_time();
+	if (game->first_frame)
+	{
+		game->oldtime = time;
+		frame_time = 0.016;
+		game->first_frame = 0;
+	}
+	else
+		frame_time = (time - game->oldtime) / 1000.0;
+    // if (frame_time > 0)
+        // printf("FPS: %.2f\n", 1.0 / frame_time);
+    game->oldtime = time;
+	game->move_speed = frame_time * 5.0;
+	game->move_rotate = frame_time * 3.0;
+    handle_movement(game);
+    raycast(game);
+}
+
 int	main(int ac, char **av)
 {
 	t_map_info	*map;
@@ -119,35 +141,4 @@ int	main(int ac, char **av)
     mlx_loop(game->mlx);
     mlx_terminate(game->mlx);
 	return (0);
-}
-
-
-
-void game_loop(void *param)
-{
-    t_game	*game;
-	double	time;
-	double	frame_time;
-	
-	game = (t_game *)param;
-	time = ft_get_time();
-	if (game->first_frame)
-	{
-		game->oldtime = time;
-		frame_time = 0.016;
-		game->first_frame = 0;
-		
-	}
-	else
-		frame_time = (time - game->oldtime) / 1000.0;
-
-	// printf("Time: %f ms, FrameTime: %f s\n", time, frame_time);
-    // if (frame_time > 0)
-        // printf("FPS: %.2f\n", 1.0 / frame_time);
-    game->oldtime = time;
-	game->move_speed = frame_time * 5.0;
-	game->move_rotate = frame_time * 3.0;
-	// printf("move speed: %f, rotate speed: %f\n", game->move_speed, game->move_rotate);
-    handle_movement(game);
-    raycast(game);
 }
