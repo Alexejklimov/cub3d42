@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nmagomad <nmagomad@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 10:31:57 by oklimov           #+#    #+#             */
-/*   Updated: 2025/08/26 21:49:37 by oklimov          ###   ########.fr       */
+/*   Updated: 2025/08/27 11:35:02 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,35 @@ int	map_info_fill_checker(t_map_info *map)
 	}
 	i = 0;
 	return (1);
+}
+
+void	clean_game(t_game *game)
+{
+	if (game->map[0])
+		free(game->map[0]);
+	if (game->map)
+		free(game->map);
+	game->map[0] = NULL;
+	game->map = NULL;
+	game = NULL;
+}
+
+void	cleanup(t_game *game)
+{
+	if (game->image)
+		mlx_delete_image(game->mlx, game->image);
+	if (game->mlx)
+		mlx_terminate(game->mlx);
+	// if (game->map_info)
+		// ft_clean(game->map_info, clean_map_info);
+	if (game)
+		clean_game(game);
+}
+
+void	errexit(t_game *game, char *msg)
+{
+	cleanup(game);
+	if (msg)
+		printf("%s\n", msg);
+	exit(1);
 }

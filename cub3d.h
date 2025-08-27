@@ -33,8 +33,10 @@
 # define D 100
 # define PXL 16 ///////////////
 
-# define SCREEN_WIDTH 800
-# define SCREEN_HEIGHT 600
+// # define SCREEN_WIDTH 800
+# define SCREEN_WIDTH 1280
+// # define SCREEN_HEIGHT 600
+# define SCREEN_HEIGHT 1024
 
 
 typedef struct s_vector
@@ -107,11 +109,15 @@ typedef struct s_wall
 
 typedef struct s_tex_info
 {
-	mlx_image_t	*nord_tex;
-	mlx_image_t	*south_tex;
-	mlx_image_t	*west_tex;
-	mlx_image_t	*east_tex;
-	mlx_image_t	*texture;
+	xpm_t		*nord_tex;
+	xpm_t		*south_tex;
+	xpm_t		*west_tex;
+	xpm_t		*east_tex;
+	mlx_image_t	texture[4];
+	mlx_image_t	*nwall;
+	mlx_image_t	*swall;
+	mlx_image_t	*ewall;
+	mlx_image_t	*wwall;
 }				t_tex_info;
 
 typedef struct s_game
@@ -119,6 +125,7 @@ typedef struct s_game
 	mlx_t		*mlx;
 	mlx_image_t	*image;
 	mlx_image_t	*wall_image;
+	mlx_image_t	*walls[4];
 	void		*win_mlx;//
 	t_map_info	*map_info;
 	uint32_t	ceil_color;
@@ -136,7 +143,7 @@ typedef struct s_game
 
 typedef enum e_texture
 {
-	NORD,
+	NORD = 0,
 	SOUTH,
 	WEST,
 	EAST,
@@ -144,7 +151,7 @@ typedef enum e_texture
 	CEIL
 }	t_texture;
 
-//parsing of map
+//=			Parsing		=//
 
 char	**read_map(char *map_file);
 void	rgb_parse(char *line, int *dest);
@@ -168,13 +175,15 @@ size_t	longest_row(char	**map);
 char	*fix_line(char	*str, size_t max_len);
 
 
-// Render utils
+//=			Render utils	=//
 
 uint32_t	get_texture_color(mlx_image_t *texture, int tex_x, int tex_y);
 uint32_t	apply_brightness(uint32_t color, double brightness, int alpha);
 uint32_t	create_color(int r, int g, int b, int a);
 void		put_pixel(mlx_image_t *image, int x, int y, uint32_t color);
 
-void	panic(char *s);
+//=			Utils	=//
+
+void		panic(char *s);
 
 #endif

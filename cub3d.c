@@ -19,7 +19,21 @@ int		init(t_game *game);
 void	raycast(t_game *game);
 void	handle_movement(t_game *game);
 double	ft_get_time();
+void	load_texture(t_game *game);
 
+
+void	debug_print(t_game *game)
+{
+
+
+	printf("player.dx=%f, player.dy=%f, player.plane.x=%f, player.plane.y=%f\n",
+	game->player.dx,
+	game->player.dy,
+	game->player.plane_x,
+	game->player.plane_y);
+	
+
+}
 
 void	print_map(t_game *game)
 {
@@ -91,17 +105,6 @@ int	main(int ac, char **av)
 		return (ft_printf("Error\n Map path/name isn`t valid\n"));
 	parse_map(av[1], map);
 	check_struct(map);
-	/* game->mlx = mlx_init();
-	if (!game->mlx)
-		return (1);
-	game->win_mlx = mlx_new_window(game->mlx, (map->x) * PXL,
-			(map->y) * PXL, "CUB3D");
-	if (!game->win_mlx)
-		return (free(game->mlx), 1); */
-	
-
-
-
 	/********************************************************************** */
 	game->map_info = map;
 	if (init(game) != 0)
@@ -110,36 +113,7 @@ int	main(int ac, char **av)
 		return (EXIT_FAILURE);
 	}
 		
-	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Simple Raycaster - MLX42", false);
-    if (!game->mlx)
-	{
-        printf("Ошибка инициализации MLX42\n");
-        return (EXIT_FAILURE);
-    }
-    // Создание изображения для рендеринга
-    game->image = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
-    if (!game->image)
-	{
-        printf("Ошибка создания изображения\n");
-        mlx_terminate(game->mlx);
-        return (EXIT_FAILURE);
-    }
-    // Добавляем изображение в окно
-    if (mlx_image_to_window(game->mlx, game->image, 0, 0) < 0)
-	{
-        printf("Ошибка добавления изображения в окно\n");
-        mlx_terminate(game->mlx);
-        return (EXIT_FAILURE);
-    }
-	// init texture 
-	xpm_t	*wall_texture = mlx_load_xpm42(game->map_info->texture[0]);
-	if (!wall_texture)
-	{
-        printf("Error: load XMP42 file\n");
-        mlx_terminate(game->mlx);
-        return (EXIT_FAILURE);
-	}
-	game->wall_image = mlx_texture_to_image(game->mlx, &wall_texture->texture);
+	game->wall_image = game->walls[3];
 
 	mlx_loop_hook(game->mlx, game_loop, game);
     mlx_loop(game->mlx);

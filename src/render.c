@@ -6,11 +6,13 @@
 /*   By: nmagomad <nmagomad@student.42mulhouse.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 17:58:44 by nmagomad          #+#    #+#             */
-/*   Updated: 2025/08/24 19:05:53 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/08/25 19:03:52 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+uint32_t	_get_texture_color(t_game *game, t_raycast *ray,int tex_x, int tex_y);
 
 /**
  * @brief Prepares wall rendering parameters for a ray in a raycasting engine.
@@ -83,7 +85,8 @@ void	render(t_game *game, int x, t_raycast *ray, t_wall *wall)
 			if (wall->tex_y < 0)
 				wall->tex_y += game->wall_image->height;
 			tex_pos += step;
-			tex_color = get_texture_color(game->wall_image, wall->tex_x, wall->tex_y);
+			// tex_color = get_texture_color(game->wall_image, wall->tex_x, wall->tex_y);
+			tex_color = _get_texture_color(game, ray, wall->tex_x, wall->tex_y);
 			tex_color = apply_brightness(tex_color, wall->brightness, 255);
 			put_pixel(game->image, x, y, tex_color);
 			// put_pixel(game->image, x, y, create_color(r, g, b, 255));
