@@ -13,7 +13,6 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-// # include "libraries/minilibx-linux/mlx.h"
 # include "libraries/printf/ft_printf.h"
 # include "libraries/MLX42/include/MLX42/MLX42.h"
 # include "libraries/libft/libft.h"
@@ -26,18 +25,10 @@
 # include <X11/keysym.h>
 # include <math.h>
 
-# define ESC 65307
-# define W 119
-# define A 97
-# define S 115
-# define D 100
-# define PXL 16 ///////////////
-
 // # define SCREEN_WIDTH 800
 # define SCREEN_WIDTH 1280
 // # define SCREEN_HEIGHT 600
 # define SCREEN_HEIGHT 1024
-
 
 typedef struct s_vector
 {
@@ -50,12 +41,12 @@ typedef struct s_vector
 typedef struct s_player
 {
 	double	x;			// позиция x
-    double	y;			// позиция y  
-    double	angle;		// угол поворота
-    double	plane_x;	// угол поворота
-    double	plane_y;	// угол поворота
-    double	dx;			// направление x (cos угла)
-    double	dy;			// направление y (sin угла)
+	double	y;			// позиция y  
+	double	angle;		// угол поворота
+	double	plane_x;	// угол поворота
+	double	plane_y;	// угол поворота
+	double	dx;			// направление x (cos угла)
+	double	dy;			// направление y (sin угла)
 }			t_player;
 
 typedef struct s_map_info
@@ -69,7 +60,6 @@ typedef struct s_map_info
 	int		floor_rgb[3];
 	int		ceil_rgb[3];
 }			t_map_info;
-
 
 typedef struct s_wall
 {
@@ -86,28 +76,28 @@ typedef struct s_wall
 
 typedef struct s_raycast
 {
-    double	camera_x;
+	double	camera_x;
 	double	pos_x;
 	double	pos_y;
-    double	dir_x;
-    double	dir_y;
-    double	plane_x;
-    double	plane_y;
-    double	raydir_x;
-    double	raydir_y;
-    double	sidedist_x;
-    double	sidedist_y;
-    double	deltadist_x;
-    double	deltadist_y;
-    double	perpwalldist; 
-    int 	step_x;
-    int 	step_y;
-    int 	side;
-	int 	map_x;
-	int 	map_y;
-	int 	wall_height;
-	int 	wall_start;
-	int 	wall_end;
+	double	dir_x;
+	double	dir_y;
+	double	plane_x;
+	double	plane_y;
+	double	raydir_x;
+	double	raydir_y;
+	double	sidedist_x;
+	double	sidedist_y;
+	double	deltadist_x;
+	double	deltadist_y;
+	double	perpwalldist;
+	int		step_x;
+	int		step_y;
+	int		side;
+	int		map_x;
+	int		map_y;
+	int		wall_height;
+	int		wall_start;
+	int		wall_end;
 	t_wall	wall;
 }			t_raycast;
 
@@ -142,7 +132,6 @@ typedef struct s_game
 	int			**map;
 	int			map_width;
 	int			map_height;
-	int			DEBUG_FLAG;
 }				t_game;
 
 typedef enum e_texture
@@ -157,26 +146,25 @@ typedef enum e_texture
 
 //=			Parsing		=//
 
-char	**read_map(char *map_file);
-void	rgb_parse(char *line, int *dest);
-int		parse_texture(char **file, t_map_info *map_info);
-char	**separate_map(char **file, t_map_info *map_info);
-void	parse_map(char *file, t_map_info *map_info);
-int		verify_texture(t_map_info *map);
-int		check_map_is_valid(char **map, t_map_info *map_info);
-int		is_symbols_valid_only(char **map);
-int		check_walls_is_valid(char **map);
-void	clean_map_info(t_map_info *map_info);
-int		map_info_fill_checker(t_map_info *map);
+char		**read_map(char *map_file);
+void		rgb_parse(char *line, int *dest);
+int			parse_texture(char **file, t_map_info *map_info);
+char		**separate_map(char **file, t_map_info *map_info);
+void		parse_map(char *file, t_map_info *map_info);
+int			verify_texture(t_map_info *map);
+int			check_map_is_valid(char **map, t_map_info *map_info);
+int			is_symbols_valid_only(char **map);
+int			check_walls_is_valid(char **map);
+void		clean_map_info(t_map_info *map_info);
+int			map_info_fill_checker(t_map_info *map);
 
-void	make_map_rectangular(char **map, t_map_info *map_info);
-void	free_map(char **map);
-void	fill_start_pos_orient(t_map_info *map_info);
-void	texture_end_fixer(t_map_info *map);
-void	fill_start_pos_orient(t_map_info *map_info);
-size_t	longest_row(char	**map);
-char	*fix_line(char	*str, size_t max_len);
-
+void		make_map_rectangular(char **map, t_map_info *map_info);
+void		free_map(char **map);
+void		fill_start_pos_orient(t_map_info *map_info);
+void		texture_end_fixer(t_map_info *map);
+void		fill_start_pos_orient(t_map_info *map_info);
+size_t		longest_row(char	**map);
+char		*fix_line(char	*str, size_t max_len);
 
 //=			Render utils	=//
 

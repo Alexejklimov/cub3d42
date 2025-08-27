@@ -27,7 +27,6 @@ LIBFT		:= $(LIBFT_DIR)/libft.a
 LIBMLX		:= $(MLX_DIR)/build/libmlx42.a
 PRINTF		:= $(PRINTF_DIR)/libftprintf.a
 
-# HEADERS := -I./libraries/printf -I./libraries/MLX42/include -I./libraries/libft -I./libraries/gnl -g
 HEADERS 	:= -I./$(PRINTF_DIR)/include -I./$(MLX_DIR)/include -I./$(LIBFT_DIR)
 
 CC			= cc
@@ -50,8 +49,8 @@ clean:
 
 fclean: clean
 	@rm -f $(NAME)
-	@make --no-print-directory -C libraries/printf clean
-	@make --no-print-directory -C libraries/libft clean
+	@make --no-print-directory -C $(PRINTF_DIR) fclean
+	@make --no-print-directory -C libraries/libft fclean
 
 
 re: fclean all
