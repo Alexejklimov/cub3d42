@@ -18,6 +18,7 @@ void	raycast(t_game *game);
 void	handle_movement(t_game *game);
 double	ft_get_time();
 void	load_texture(t_game *game);
+void	cleanup(t_game *game);
 
 void	debug_print(t_game *game)
 {

@@ -1,0 +1,8 @@
+{
+   suppress_all_known_library_leaks
+   Memcheck:Leak
+   obj:/usr/lib/x86_64-linux-gnu/libglfw.so*
+   obj:/usr/lib/x86_64-linux-gnu/libLLVM-15.so*
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so*
+   obj:/usr/lib/x86_64-linux-gnu/dri/radeonsi_dri.so*
+}

@@ -1,0 +1,42 @@
+{
+   suppress_glfw_dlclose
+   Memcheck:Leak
+   fun:malloc
+   fun:_dl_close_worker*
+   fun:_dl_close
+   fun:_dl_catch_exception
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlclose
+   obj:/usr/lib/x86_64-linux-gnu/libglfw.so*
+   fun:mlx_terminate
+}
+
+{
+   suppress_libLLVM
+   Memcheck:Leak
+   fun:operator*new*
+   obj:/usr/lib/x86_64-linux-gnu/libLLVM-15.so*
+}
+
+{
+   suppress_libX11
+   Memcheck:Leak
+   fun:realloc
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so*
+}
+
+{
+   suppress_radeonsi_dri
+   Memcheck:Leak
+   fun:calloc
+   obj:/usr/lib/x86_64-linux-gnu/dri/radeonsi_dri.so*
+}
+
+{
+   suppress_radeonsi_dri_memalign
+   Memcheck:Leak
+   fun:memalign
+   fun:posix_memalign
+   obj:/usr/lib/x86_64-linux-gnu/dri/radeonsi_dri.so*
+}

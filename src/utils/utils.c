@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmagomad <nmagomad@student.42mulhouse.f    +#+  +:+       +#+        */
+/*   By: nmagomad <nmagomad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 10:31:57 by oklimov           #+#    #+#             */
-/*   Updated: 2025/08/27 11:35:02 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/08/28 18:49:59 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,8 @@ void	cleanup(t_game *game)
 		mlx_delete_image(game->mlx, game->image);
 	if (game->mlx)
 		mlx_terminate(game->mlx);
-	// if (game->map_info)
-		// ft_clean(game->map_info, clean_map_info);
+	if (game->map_info)
+		clean_map_info(game->map_info);
 	if (game)
 		clean_game(game);
 }
