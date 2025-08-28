@@ -36,29 +36,25 @@ char	**read_map(char *map_file)
 	close(fd);
 	map[i] = NULL;
 	if (i == 0)
-		printf("empty file %d", i);
+		printf("error\nempty file");
 	return (map);
 }
 
-// void	rgb_parse(char *line, int *dest)
-// {
-// 	int	i;
-// 	int	texture_index;
-// 	int	buffer;
+int	is_valid_rgb_data(char *line)
+{
+	int	i;
 
-// 	buffer = 0;
-// 	i = 0;
-// 	texture_index = 0;
-// 	while (line[i] && texture_index < 3)
-// 	{
-// 		buffer = 0;
-// 		while (ft_isdigit(line[i]))
-// 			buffer = (buffer * 10) + (line[i++] - '0');
-// 		if (buffer)
-// 			dest[texture_index++] = buffer;
-// 		i++;
-// 	}
-// }
+	i = 0;
+	if (line[0] == '\n')
+		return (0);
+	while (line[i] && line[i] != '\n' && line[i] != '\0')
+	{
+		if (!ft_isdigit(line[i]))
+			return(0);
+		i++;
+	}
+	return (1);
+}
 
 void	rgb_parse(char *line, int *dest)
 {
@@ -72,18 +68,18 @@ void	rgb_parse(char *line, int *dest)
 	while (split_arr[i])
 		i++;
 	if (i != 3)
-		{
 			panic("Error\ncolor info incorrect");
-		}
 	i = 0;
 	while (i < 3)
 	{
-		if (ft_atoi(split_arr[i]) >= 0)
+		if (is_valid_rgb_data(split_arr[i]))
 			dest[i] = ft_atoi(split_arr[i]);
 		else
-			panic("lower then 0");
+			panic("Error\nrgb color incorrect");
 		i++;
 	}
+	if (i != 3)
+		panic("\nkaka\n");
 	free_map(split_arr);
 }
 
@@ -119,13 +115,13 @@ int	parse_texture(char **file, t_map_info *map_info)
 	while (file[i] != NULL && file[i][0] != '1' && file[i][0] != ' ' && file[i][0] != '\t')
 	{
 		if (!ft_strncmp((char *)file[i], "NO ", 3))
-			map_info->texture[0] = ft_strdup(file[i] + 3);//////////убрать маг.число 3/////
+			map_info->texture[0] = ft_strdup(file[i] + 3);//add func fill_texture with skip spaces
 		if (!ft_strncmp((char *)file[i], "SO ", 3))
-			map_info->texture[1] = ft_strdup(file[i] + 3);//////////убрать маг.число 3/////
+			map_info->texture[1] = ft_strdup(file[i] + 3);//add func fill_texture with skip spaces
 		if (!ft_strncmp((char *)file[i], "WE ", 3))
-			map_info->texture[2] = ft_strdup(file[i] + 3);//////////убрать маг.число 3/////
+			map_info->texture[2] = ft_strdup(file[i] + 3);//add func fill_texture with skip spaces
 		if (!ft_strncmp((char *)file[i], "EA ", 3))
-			map_info->texture[3] = ft_strdup(file[i] + 3);//////////убрать маг.число 3/////
+			map_info->texture[3] = ft_strdup(file[i] + 3);//add func fill_texture with skip spaces
 		if (!ft_strncmp((char *)file[i], "F ", 2))
 			rgb_parse(file[i] + 2, map_info->floor_rgb);
 		if (!ft_strncmp((char *)file[i], "C ", 2))
@@ -142,6 +138,13 @@ char	**separate_map(char **file, t_map_info *map_info)
 	int			acc;
 	char		**separated_map;
 
+	i = 0;
+	while (i < 3)
+	{
+		map_info->floor_rgb[i] = -1;
+		map_info->ceil_rgb[i] = -1;
+		i++;
+	}
 	i = parse_texture(file, map_info);
 	if (i == 0)
 		return (free_map(file), NULL);
@@ -153,7 +156,6 @@ char	**separate_map(char **file, t_map_info *map_info)
 	while (file[i])
 		separated_map[j++] = ft_strdup(file[i++]);
 	separated_map[j] = NULL;
-	i = 0;
 	free_map(file);
 	return (separated_map);
 }
