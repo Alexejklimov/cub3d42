@@ -18,6 +18,7 @@ void	raycast(t_game *game);
 void	handle_movement(t_game *game);
 double	ft_get_time();
 void	load_texture(t_game *game);
+void	cleanup(t_game *game);
 
 void	debug_print(t_game *game)
 {
@@ -36,8 +37,8 @@ void	print_map(t_game *game)
 {
 	size_t	i = 0, j = 0;
 
-	size_t	rows = game->map_info->x;
-	size_t	cols = game->map_info->y;
+	size_t	rows = game->map_info->y;
+	size_t	cols = game->map_info->x;
 	while (i < rows)
 	{
 		j = 0;
@@ -134,11 +135,15 @@ int	main(int ac, char **av)
 		printf("Error init game\n");
 		return (EXIT_FAILURE);
 	}
+
+	printf("################################\n");
+	print_map(game);
 		
 	game->wall_image = game->walls[3];
 
 	mlx_loop_hook(game->mlx, game_loop, game);
     mlx_loop(game->mlx);
-    mlx_terminate(game->mlx);
+	cleanup(game);
+    // mlx_terminate(game->mlx);
 	return (0);
 }

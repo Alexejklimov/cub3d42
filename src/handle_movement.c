@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_movement.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmagomad <nmagomad@student.42mulhouse.f    +#+  +:+       +#+        */
+/*   By: nmagomad <nmagomad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 13:36:53 by nmagomad          #+#    #+#             */
-/*   Updated: 2025/08/27 14:23:02 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/08/28 17:27:41 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void	move(t_game *game, double axis_x, double axis_y, int sign)
 		return ;
 	}
 	// if (new_x >= 0 && new_x < width && new_y >= 0 && new_y < height)
-	if (new_x >= 0.50 && new_x < width - 0.50 && new_y >= 0.50 && new_y < height - 0.50)
+	// if (new_x >= 0.50 && new_x < width - 0.50 && new_y >= 0.50 && new_y < height - 0.50)
+	if (new_x >= 0.50 && new_x < height - 0.50 && new_y >= 0.50 && new_y < width - 0.50)
 	{
 		if (game->map[(int)new_x][(int)game->player.y] == 0)
 			game->player.x = new_x;
@@ -71,9 +72,9 @@ void	handle_movement(t_game *game)
 	if (mlx_is_key_down(game->mlx, MLX_KEY_D))
 		move(game, game->player.plane_x, game->player.plane_y, 1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
-		rotate(game, 1);
-	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
 		rotate(game, -1);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
+		rotate(game, 1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(game->mlx);
 }

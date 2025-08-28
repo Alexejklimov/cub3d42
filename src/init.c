@@ -6,7 +6,7 @@
 /*   By: nmagomad <nmagomad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:35:04 by nmagomad          #+#    #+#             */
-/*   Updated: 2025/08/27 15:12:59 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/08/28 18:17:01 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static	int	allocate_map(t_game *game)
 
 	if (!game)
 		return (-1);
-	game->map = malloc(game->map_info->x * sizeof(int *));
+	game->map = malloc(game->map_info->y * sizeof(int *));
 	if (!game->map)
 	{
 		perror("out of memory");
@@ -35,29 +35,35 @@ static	int	allocate_map(t_game *game)
 		return (-1);
 	}
 	i = 1;
-	while (i < game->map_info->x)
+	while (i < game->map_info->y)
 	{
-		game->map[i] = game->map[0] + i * game->map_info->y;
+		game->map[i] = game->map[0] + i * game->map_info->x;
 		i++;
 	}
 	return (0);
 }
 
-static void	convet_map_to_int(t_game *game)
+static void	convert_map_to_int(t_game *game)
 {
 	size_t	i;
 	size_t	j;
 
 	i = 0;
+	// size_t	rows = game->map_info->x;
+	// size_t	calls = game->map_info->y;
 	while (i < game->map_info->x)
 	{
 		j = 0;
 		while (j < game->map_info->y)
 		{
 			if (game->map_info->map[i][j] == '1')
-				game->map[i][j] = 1;
+				// game->map[i][j] = 1;
+				// game->map[calls - j - 1][i] = 1;
+				game->map[j][i] = 1;
 			else
-				game->map[i][j] = 0;
+				// game->map[i][j] = 0;
+				// game->map[calls - j - 1][i] = 0;
+				game->map[j][i] = 0;
 			j++;
 		}
 		i++;
@@ -81,14 +87,14 @@ static	void	init_direction(t_game *game)
 		panic("Error: Pointer `game or man_info` is NULL");
 	ft_memset(&direction, 0, sizeof(direction));
 	dir = game->map_info->start_orient;
-	// direction['N'] = (t_vector){0, -1, 0.66, 0}; // old
-	direction['N'] = (t_vector){-1, 0, 0, 0.66};
-	// direction['S'] = (t_vector){0, 1, -0.66, 0}; // old
-	direction['S'] = (t_vector){1, 0, 0, 0.66};
-	// direction['E'] = (t_vector){1, 0, 0, 0.66}; // old
-	direction['E'] = (t_vector){0, 1, -0.66, 0};
-	// direction['W'] = (t_vector){-1, 0, 0, 0.66}; //old
-	direction['W'] = (t_vector){0, -1, 0.66, 0};
+	direction['N'] = (t_vector){0, -1, 0.66, 0}; // old
+	// direction['N'] = (t_vector){-1, 0, 0, 0.66};
+	direction['S'] = (t_vector){0, 1, -0.66, 0}; // old
+	// direction['S'] = (t_vector){1, 0, 0, 0.66};
+	direction['E'] = (t_vector){1, 0, 0, 0.66}; // old
+	// direction['E'] = (t_vector){0, 1, -0.66, 0};
+	direction['W'] = (t_vector){-1, 0, 0, 0.66}; //old
+	// direction['W'] = (t_vector){0, -1, 0.66, 0};
 	if (direction[(int)dir].dirx || direction[(int)dir].diry
 		|| direction[(int)dir].planex || direction[(int)dir].planey)
 	{
@@ -164,17 +170,19 @@ void	init_mlx(t_game *game)
 int	init(t_game *game)
 {
 	if (game->map_info->start_pos[0])
-		game->player.x = game->map_info->start_pos[0] + 0.5;
+		game->player.x = game->map_info->start_pos[1] + 0.5;
 	if (game->map_info->start_pos[1])
-	game->player.y = game->map_info->start_pos[1] + 0.5;
+	game->player.y = game->map_info->start_pos[0] + 0.5;
 	init_direction(game);
 	init_ceiling_floor_color(game);
 	game->oldtime = 0;
-	game->map_width = game->map_info->y;
-	game->map_height = game->map_info->x;
+	game->map_width = game->map_info->x;
+	game->map_height = game->map_info->y;
 	if (allocate_map(game) != 0)
 		return (-1);
-	convet_map_to_int(game);
+	convert_map_to_int(game);
 	init_mlx(game);
+	clean_map_info(game->map_info);
+	game->map_info = NULL;
 	return (0);
 }
