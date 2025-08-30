@@ -6,7 +6,7 @@
 /*   By: nmagomad <nmagomad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 13:36:53 by nmagomad          #+#    #+#             */
-/*   Updated: 2025/08/28 17:27:41 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/08/30 16:33:48 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	rotate(t_game *game, int sign)
 	plane_x = game->player.plane_x;
 	plane_y = game->player.plane_y;
 	rot_speed = sign * game->move_rotate;
+	game->player.angle += rot_speed;
 	game->player.dx = dir_x * cos(rot_speed) - dir_y * sin(rot_speed);
 	game->player.dy = dir_x * sin(rot_speed) + dir_y * cos(rot_speed);
 	game->player.plane_x = plane_x * cos(rot_speed) - plane_y * sin(rot_speed);

@@ -6,7 +6,7 @@
 /*   By: nmagomad <nmagomad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:35:04 by nmagomad          #+#    #+#             */
-/*   Updated: 2025/08/28 18:17:01 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/08/30 16:32:23 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ static	void	init_direction(t_game *game)
 	}
 	else
 		panic("Error: orientation of spwning is rong");
+	game->player.angle = atan2(game->player.dx, game->player.y);
+	game->player.angle -= M_PI / 2.0;
 }
 
 static void	init_ceiling_floor_color(t_game *game)
@@ -182,7 +184,5 @@ int	init(t_game *game)
 		return (-1);
 	convert_map_to_int(game);
 	init_mlx(game);
-	clean_map_info(game->map_info);
-	game->map_info = NULL;
 	return (0);
 }
