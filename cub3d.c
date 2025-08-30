@@ -19,6 +19,7 @@ void	handle_movement(t_game *game);
 double	ft_get_time();
 void	load_texture(t_game *game);
 void	cleanup(t_game *game);
+void	draw_map(t_game *game);
 
 void	debug_print(t_game *game)
 {
@@ -115,6 +116,7 @@ void game_loop(void *param)
 	game->move_rotate = frame_time * 3.0;
     handle_movement(game);
     raycast(game);
+	draw_map(game);
 }
 
 int	main(int ac, char **av)

@@ -29,6 +29,13 @@
 # define SCREEN_WIDTH 1280
 // # define SCREEN_HEIGHT 600
 # define SCREEN_HEIGHT 1024
+# define MINI_MAP_RAYS 200
+
+typedef struct s_point
+{
+	int	x;
+	int	y;
+}		t_point;
 
 typedef struct s_vector
 {
@@ -37,6 +44,20 @@ typedef struct s_vector
 	double	planex;
 	double	planey;
 }			t_vector;
+
+typedef struct s_minimap
+{
+	int		x;
+	int		y;
+	int		size;
+	int		max_size;
+	int		player_x;
+	int		player_y;
+	int		scale;
+	int		mheight;
+	int		mwidth;
+	t_point	player;
+}		t_minimap;
 
 typedef struct s_player
 {
@@ -132,6 +153,7 @@ typedef struct s_game
 	int			**map;
 	int			map_width;
 	int			map_height;
+	t_minimap	minimap;
 }				t_game;
 
 typedef enum e_texture

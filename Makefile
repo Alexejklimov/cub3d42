@@ -15,7 +15,7 @@ NAME		:=	cub3d
 SRCS		:= cub3d.c src/parsing/read_and_separate.c src/parsing/parse_map.c 	\
 			src/utils/utils.c src/parsing/parsing_utils.c src/init.c 			\
 			src/handle_movement.c src/raycasting.c src/render.c					\
-			src/render_utils.c	\
+			src/render_utils.c src/render_mini_map.c src/minimap_utils.c
 
 OBJS		:= $(SRCS:.c=.o)
 
