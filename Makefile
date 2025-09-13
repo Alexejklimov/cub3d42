@@ -27,7 +27,10 @@ LIBFT		:= $(LIBFT_DIR)/libft.a
 LIBMLX		:= $(MLX_DIR)/build/libmlx42.a
 PRINTF		:= $(PRINTF_DIR)/libftprintf.a
 
-HEADERS 	:= -I./$(PRINTF_DIR)/include -I./$(MLX_DIR)/include -I./$(LIBFT_DIR)
+MLX_URL		:= https://github.com/codam-coding-college/MLX42.git
+
+# HEADERS 	:= -I./inc -I./$(PRINTF_DIR)/include -I./$(MLX_DIR)/include -I./$(LIBFT_DIR)
+HEADERS 	:= -I./inc -I./$(PRINTF_DIR)/include -I./$(LIBFT_DIR)
 
 CC			= cc
 CFLAGS		= -Wall -Werror -Wextra -O3 -g
@@ -43,12 +46,13 @@ all: build
 
 clean:
 	@rm -f $(OBJS)
-	@rm -fr $(MLX_DIR)/build
+	@rm -rf $(MLX_DIR)/build
 	@make --no-print-directory -C libraries/printf clean
 	@make --no-print-directory -C libraries/libft clean
 
 fclean: clean
 	@rm -f $(NAME)
+	@rm -rf $(MLX_DIR)/build
 	@make --no-print-directory -C $(PRINTF_DIR) fclean
 	@make --no-print-directory -C libraries/libft fclean
 
@@ -59,11 +63,15 @@ $(PRINTF):
 	@make --no-print-directory -C libraries/printf
 
 $(LIBMLX):
-# 	@make -C libraries/minilibx-linux
-	@cmake libraries/MLX42 -B libraries/MLX42/build && make -C libraries/MLX42/build -j4
+	@if [ ! -d "$(MLX_DIR)" ]; then \
+		echo "Cloning repository..."; \
+		git clone $(MLX_URL) $(MLX_DIR); \
+	fi
+	@cmake $(MLX_DIR) -B $(MLX_DIR)/build && make -C $(MLX_DIR)/build -j4
 
 ${LIBFT}:
 	@make -C libraries/libft
+
 
 .PHONY: all clean fclean re build
 

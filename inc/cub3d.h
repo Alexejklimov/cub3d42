@@ -14,8 +14,8 @@
 # define CUB3D_H
 
 # include "libraries/printf/ft_printf.h"
+# include "libraries/MLX42/include/MLX42/MLX42.h"
 # include "libraries/libft/libft.h"
-# include "MLX42.h"
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
