@@ -38,13 +38,13 @@ typedef struct s_point
 }		t_point;
 
 
-typedef struct s_vector
+typedef struct s_camera
 {
 	double	dirx;
 	double	diry;
 	double	planex;
 	double	planey;
-}			t_vector;
+}			t_camera;
 
 typedef struct s_minimap
 {
@@ -142,7 +142,6 @@ typedef struct s_game
 	mlx_image_t	*image;
 	mlx_image_t	*wall_image;
 	mlx_image_t	*walls[4];
-	void		*win_mlx;//
 	t_map_info	*map_info;
 	uint32_t	ceil_color;
 	uint32_t	floor_color;

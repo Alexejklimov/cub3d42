@@ -6,7 +6,7 @@
 /*   By: nmagomad <nmagomad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:35:04 by nmagomad          #+#    #+#             */
-/*   Updated: 2025/08/30 16:32:23 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/09/15 13:00:47 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,19 +81,19 @@ static void	convert_map_to_int(t_game *game)
 static	void	init_direction(t_game *game)
 {
 	char		dir;
-	t_vector	direction[256];
+	t_camera	direction[256];
 
 	if (!game || !game->map_info)
 		panic("Error: Pointer `game or man_info` is NULL");
 	ft_memset(&direction, 0, sizeof(direction));
 	dir = game->map_info->start_orient;
-	direction['N'] = (t_vector){0, -1, 0.66, 0}; // old
+	direction['N'] = (t_camera){0, -1, 0.66, 0}; // old
 	// direction['N'] = (t_vector){-1, 0, 0, 0.66};
-	direction['S'] = (t_vector){0, 1, -0.66, 0}; // old
+	direction['S'] = (t_camera){0, 1, -0.66, 0}; // old
 	// direction['S'] = (t_vector){1, 0, 0, 0.66};
-	direction['E'] = (t_vector){1, 0, 0, 0.66}; // old
+	direction['E'] = (t_camera){1, 0, 0, 0.66}; // old
 	// direction['E'] = (t_vector){0, 1, -0.66, 0};
-	direction['W'] = (t_vector){-1, 0, 0, 0.66}; //old
+	direction['W'] = (t_camera){-1, 0, 0, 0.66}; //old
 	// direction['W'] = (t_vector){0, -1, 0.66, 0};
 	if (direction[(int)dir].dirx || direction[(int)dir].diry
 		|| direction[(int)dir].planex || direction[(int)dir].planey)
