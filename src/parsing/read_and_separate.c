@@ -21,10 +21,10 @@ char	**read_map(char *map_file)
 
 	fd = open(map_file, O_RDONLY);
 	if (fd < 0)
-		return (perror("open map file - Error\n"), NULL);////
-	map = malloc(sizeof(char *) * 256); //////////
+		return (perror("open map file - Error\n"), NULL);
+	map = malloc(sizeof(char *) * 256);
 	if (!map)
-		return (perror("map memory allocate - Error\n"), NULL);/////
+		return (perror("map memory allocate - Error\n"), NULL);
 	line = " ";
 	i = 0;
 	while (line != NULL)
@@ -50,13 +50,13 @@ int	is_valid_rgb_data(char *line)
 	while (line[i] && line[i] != '\n' && line[i] != '\0')
 	{
 		if (!ft_isdigit(line[i]))
-			return(0);
+			return (0);
 		i++;
 	}
 	return (1);
 }
 
-void	rgb_parse(char *line, int *dest)
+int	rgb_parse(char *line, int *dest)
 {
 	char	**split_arr;
 	int		i;
@@ -81,6 +81,7 @@ void	rgb_parse(char *line, int *dest)
 	if (i != 3)
 		panic("\nkaka\n");
 	free_map(split_arr);
+	return (1);
 }
 
 int	verify_texture(t_map_info *map)
@@ -92,8 +93,13 @@ int	verify_texture(t_map_info *map)
 	texture_end_fixer(map);
 	while (i < 4)
 	{
+		fd = 0;
 		fd = open(map->texture[i], O_RDONLY);
+		if (fd < 0)
+			return (printf("Error\ncannot open file\n"), 0);
 		close(fd);
+		if (ft_check_arg(map->texture[i], ".xpm42", 6))
+			return (printf("Error\ntexture file incorrect"), 0);
 		i++;
 	}
 	i = 0;
@@ -107,27 +113,51 @@ int	verify_texture(t_map_info *map)
 	return (1);
 }
 
+int	fill_texture_struct(t_map_info *map, char *line, int num)
+{
+	char	*start;
+
+	while (*line == ' ' || *line == '\t')
+		line++;
+	start = line;
+	while (*line)
+	{
+		if (*line == ' ' || *line == '\t' || *line == '\r')
+		{
+			*line = '\0';
+			break ;
+		}
+		line++;
+	}
+	map->texture[num] = ft_strdup((const char *)start);
+	return (1);
+}
+
 int	parse_texture(char **file, t_map_info *map_info)
 {
 	int	i;
+	int	acc;
 
 	i = 0;
-	while (file[i] != NULL && file[i][0] != '1' && file[i][0] != ' ' && file[i][0] != '\t')
+	while (file[i] != NULL && file[i][0] != '1' && file[i][0] != ' '
+		&& file[i][0] != '\t')
 	{
 		if (!ft_strncmp((char *)file[i], "NO ", 3))
-			map_info->texture[0] = ft_strdup(file[i] + 3);//add func fill_texture with skip spaces
+			acc = fill_texture_struct(map_info, file[i] + 2, 0);
 		if (!ft_strncmp((char *)file[i], "SO ", 3))
-			map_info->texture[1] = ft_strdup(file[i] + 3);//add func fill_texture with skip spaces
+			acc += fill_texture_struct(map_info, file[i] + 2, 1);
 		if (!ft_strncmp((char *)file[i], "WE ", 3))
-			map_info->texture[2] = ft_strdup(file[i] + 3);//add func fill_texture with skip spaces
+			acc += fill_texture_struct(map_info, file[i] + 2, 2);
 		if (!ft_strncmp((char *)file[i], "EA ", 3))
-			map_info->texture[3] = ft_strdup(file[i] + 3);//add func fill_texture with skip spaces
+			acc += fill_texture_struct(map_info, file[i] + 2, 3);
 		if (!ft_strncmp((char *)file[i], "F ", 2))
-			rgb_parse(file[i] + 2, map_info->floor_rgb);
+			acc += rgb_parse(file[i] + 2, map_info->floor_rgb);
 		if (!ft_strncmp((char *)file[i], "C ", 2))
-			rgb_parse(file[i] + 2, map_info->ceil_rgb);
+			acc += rgb_parse(file[i] + 2, map_info->ceil_rgb);
 		i++;
 	}
+	if (acc != 6)
+		return ( 0);
 	return (i);
 }
 
@@ -147,7 +177,7 @@ char	**separate_map(char **file, t_map_info *map_info)
 	}
 	i = parse_texture(file, map_info);
 	if (i == 0)
-		return (free_map(file), NULL);
+		return (printf("Error\nincorrect file info"), free_map(file), NULL);
 	acc = i;
 	while (file[acc] != NULL)
 		acc++;

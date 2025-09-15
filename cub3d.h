@@ -169,7 +169,7 @@ typedef enum e_texture
 //=			Parsing		=//
 
 char		**read_map(char *map_file);
-void		rgb_parse(char *line, int *dest);
+int			rgb_parse(char *line, int *dest);
 int			parse_texture(char **file, t_map_info *map_info);
 char		**separate_map(char **file, t_map_info *map_info);
 void		parse_map(char *file, t_map_info *map_info);
@@ -179,7 +179,7 @@ int			is_symbols_valid_only(char **map);
 int			check_walls_is_valid(char **map);
 void		clean_map_info(t_map_info *map_info);
 int			map_info_fill_checker(t_map_info *map);
-
+int			ft_check_arg(char *mapname, char *ber, int length);
 void		make_map_rectangular(char **map, t_map_info *map_info);
 void		free_map(char **map);
 void		fill_start_pos_orient(t_map_info *map_info);

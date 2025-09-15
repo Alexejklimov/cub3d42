@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmagomad <nmagomad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 10:31:57 by oklimov           #+#    #+#             */
-/*   Updated: 2025/08/28 18:49:59 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/09/15 13:27:43 by oklimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,17 @@
 
 void	clean_map_info(t_map_info *map_info)
 {
+	int i;
+
 	if (map_info->map)
 		free_map(map_info->map);
+	i = 0;
+	while (i < 4)
+	{
+		if (map_info->texture[i])
+			free(map_info->texture[i]);
+		i++;
+	}
 	free(map_info);
 	exit (1);
 }
