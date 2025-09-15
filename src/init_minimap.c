@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minimap_utils.c                                    :+:      :+:    :+:   */
+/*   init_minimap.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nmagomad <nmagomad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 15:49:51 by nmagomad          #+#    #+#             */
-/*   Updated: 2025/08/30 16:22:38 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/09/15 17:21:10 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "cub3d.h"
 
 t_point	convert_to_minimap_coords(t_game *game, double x, double y)
 {
@@ -47,22 +47,4 @@ void	init_mini_map(t_game *game)
 	game->minimap.y = 10;
 	game->minimap.player = convert_to_minimap_coords(game, game->player.x,
 			game->player.y);
-}
-
-void	run_dda_2d(t_game *game, t_raycast *r, double distance, double step)
-{
-	while (distance < 7)
-	{
-		r->dir_x += (r->raydir_x * step);
-		r->dir_y += (r->raydir_y * step);
-		distance += step;
-		r->map_x = (int)r->dir_x;
-		r->map_y = (int)r->dir_y;
-		if (r->map_x < 0 || r->map_x >= game->minimap.mwidth
-			|| r->map_y < 0 || r->map_y >= game->minimap.mheight
-			|| game->map[r->map_x][r->map_y] == 1)
-		{
-			break ;
-		}
-	}
 }

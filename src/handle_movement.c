@@ -6,11 +6,11 @@
 /*   By: nmagomad <nmagomad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 13:36:53 by nmagomad          #+#    #+#             */
-/*   Updated: 2025/08/30 16:33:48 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/09/15 14:45:49 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "cub3d.h"
 
 void	move(t_game *game, double axis_x, double axis_y, int sign)
 {

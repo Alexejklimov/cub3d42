@@ -12,16 +12,17 @@
 
 NAME		:=	cub3d
 
-SRCS		:= cub3d.c src/parsing/read_and_separate.c src/parsing/parse_map.c 	\
-			src/utils/utils.c src/parsing/parsing_utils.c src/init.c 			\
+SRCS		:= src/cub3d.c src/parsing/read_and_separate.c src/render_utils.c	\
+			src/utils/utils.c src/parsing/parsing_utils.c src/init.c src/draw.c \
 			src/handle_movement.c src/raycasting.c src/render.c					\
-			src/render_utils.c	src/render_mini_map.c src/minimap_utils.c\
+			src/render_mini_map.c src/init_minimap.c src/parsing/parse_map.c	\
 
-OBJS		:= $(SRCS:.c=.o)
+OBJS		:= $(SRCS:%.c=%.o)
 
 LIBFT_DIR	:= libraries/libft
 PRINTF_DIR	:= libraries/printf
 MLX_DIR		:= libraries/MLX42
+OBJ_DIR		:= .build
 
 LIBFT		:= $(LIBFT_DIR)/libft.a
 LIBMLX		:= $(MLX_DIR)/build/libmlx42.a
@@ -42,7 +43,8 @@ $(NAME): $(OBJS) ${LIBMLX} ${PRINTF} ${LIBFT}
 %.o: %.c
 	@$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
 
-all: build
+
+all: $(NAME)
 
 clean:
 	@rm -f $(OBJS)
@@ -72,34 +74,4 @@ $(LIBMLX):
 ${LIBFT}:
 	@make -C libraries/libft
 
-
 .PHONY: all clean fclean re build
-
-STEPS = 25
-
-build:
-	@if make -q ${NAME}; then \
-		echo "make: Nothing to be done for 'all'."; \
-	else \
-		i=1; \
-		while [ $$i -le $(STEPS) ]; do \
-			percent=$$((4 * $$i)); \
-			bar_len=$$((percent)); \
-			if   [ $$percent -le 10 ];  then color="\033[38;5;160m"; \
-			elif [ $$percent -le 20 ];  then color="\033[38;5;196m"; \
-			elif [ $$percent -le 30 ];  then color="\033[38;5;202m"; \
-			elif [ $$percent -le 40 ];  then color="\033[38;5;226m"; \
-			elif [ $$percent -le 50 ];  then color="\033[38;5;190m"; \
-			elif [ $$percent -le 60 ];  then color="\033[38;5;154m"; \
-			elif [ $$percent -le 70 ];  then color="\033[38;5;118m"; \
-			elif [ $$percent -le 80 ];  then color="\033[38;5;82m"; \
-			elif [ $$percent -le 90 ];  then color="\033[38;5;46m"; \
-			else                          color="\033[38;5;40m"; fi; \
-			bar="$$(printf '█%.0s' $$(seq 1 $$bar_len))"; \
-			printf "\r\033[36mProgress: %3d%% \033[0m $${color}%-25s\033[0m" $$percent "$$bar "; \
-			i=$$((i + 1)); \
-			sleep 0.01; \
-		done; \
-		printf "\n"; \
-		make -s ${NAME}; \
-	fi

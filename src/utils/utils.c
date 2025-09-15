@@ -6,11 +6,11 @@
 /*   By: nmagomad <nmagomad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 10:31:57 by oklimov           #+#    #+#             */
-/*   Updated: 2025/09/15 12:34:52 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/09/15 14:45:41 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
+#include "cub3d.h"
 
 void	clean_map_info(t_map_info *map_info)
 {

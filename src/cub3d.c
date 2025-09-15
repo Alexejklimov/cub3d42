@@ -16,22 +16,18 @@ void	game_loop(void *param);
 int		init(t_game *game);
 void	raycast(t_game *game);
 void	handle_movement(t_game *game);
-double	ft_get_time();
+double	ft_get_time(void);
 void	load_texture(t_game *game);
 void	cleanup(t_game *game);
-void	draw_map(t_game *game);
+void	render_mini_map(t_game *game);
 
 void	debug_print(t_game *game)
 {
-
-
 	printf("player.dx=%f, player.dy=%f, player.plane.x=%f, player.plane.y=%f\n",
-	game->player.dx,
-	game->player.dy,
-	game->player.plane_x,
-	game->player.plane_y);
-	
-
+		game->player.dx,
+		game->player.dy,
+		game->player.plane_x,
+		game->player.plane_y);
 }
 
 void	print_map(t_game *game)
@@ -116,7 +112,7 @@ void game_loop(void *param)
 	game->move_rotate = frame_time * 3.0;
     handle_movement(game);
     raycast(game);
-	draw_map(game);
+	render_mini_map(game);
 }
 
 int	main(int ac, char **av)
@@ -137,15 +133,11 @@ int	main(int ac, char **av)
 		printf("Error init game\n");
 		return (EXIT_FAILURE);
 	}
-
 	printf("################################\n");
 	print_map(game);
 		
-	game->wall_image = game->walls[3];
-
 	mlx_loop_hook(game->mlx, game_loop, game);
     mlx_loop(game->mlx);
 	cleanup(game);
-    // mlx_terminate(game->mlx);
 	return (0);
 }

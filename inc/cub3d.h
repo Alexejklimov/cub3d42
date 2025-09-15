@@ -13,9 +13,9 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "libraries/printf/ft_printf.h"
-# include "libraries/MLX42/include/MLX42/MLX42.h"
-# include "libraries/libft/libft.h"
+# include "../libraries/printf/ft_printf.h"
+# include "../libraries/libft/libft.h"
+# include "MLX42.h"
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
@@ -25,9 +25,7 @@
 # include <X11/keysym.h>
 # include <math.h>
 
-// # define SCREEN_WIDTH 800
 # define SCREEN_WIDTH 1280
-// # define SCREEN_HEIGHT 600
 # define SCREEN_HEIGHT 1024
 # define MINI_MAP_RAYS 200
 
@@ -38,13 +36,13 @@ typedef struct s_point
 }		t_point;
 
 
-typedef struct s_vector
+typedef struct s_camera
 {
 	double	dirx;
 	double	diry;
 	double	planex;
 	double	planey;
-}			t_vector;
+}			t_camera;
 
 typedef struct s_minimap
 {
@@ -85,16 +83,17 @@ typedef struct s_map_info
 
 typedef struct s_wall
 {
-	int		height;
-	int		start;
-	int		end;
-	int		tex_x;
-	int		tex_y;
-	double	wall_x;
-	double	brightness;
-	double	tex_step;
-	double	tex_pos;
-}			t_wall;
+	int			height;
+	int			start;
+	int			end;
+	int			tex_x;
+	int			tex_y;
+	double		wall_x;
+	double		brightness;
+	double		tex_step;
+	double		tex_pos;
+	mlx_image_t	*image;
+}				t_wall;
 
 typedef struct s_raycast
 {
@@ -117,13 +116,10 @@ typedef struct s_raycast
 	int		side;
 	int		map_x;
 	int		map_y;
-	int		wall_height;
-	int		wall_start;
-	int		wall_end;
 	t_wall	wall;
 }			t_raycast;
 
-typedef struct s_tex_info
+/* typedef struct s_tex_info
 {
 	xpm_t		*nord_tex;
 	xpm_t		*south_tex;
@@ -134,15 +130,14 @@ typedef struct s_tex_info
 	mlx_image_t	*swall;
 	mlx_image_t	*ewall;
 	mlx_image_t	*wwall;
-}				t_tex_info;
+}				t_tex_info; */
 
 typedef struct s_game
 {
 	mlx_t		*mlx;
 	mlx_image_t	*image;
-	mlx_image_t	*wall_image;
+	// mlx_image_t	*wall_image;
 	mlx_image_t	*walls[4];
-	void		*win_mlx;//
 	t_map_info	*map_info;
 	uint32_t	ceil_color;
 	uint32_t	floor_color;
@@ -159,10 +154,10 @@ typedef struct s_game
 
 typedef enum e_texture
 {
-	NORD = 3,
-	SOUTH = 2,
-	WEST = 1,
-	EAST = 0,
+	NORD = 0,
+	SOUTH,
+	WEST,
+	EAST,
 	FLOOR,
 	CEIL
 }	t_texture;

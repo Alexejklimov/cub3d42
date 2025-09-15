@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nmagomad <nmagomad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 16:05:17 by oklimov           #+#    #+#             */
-/*   Updated: 2025/08/26 21:22:48 by oklimov          ###   ########.fr       */
+/*   Updated: 2025/09/15 14:45:22 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
+#include "cub3d.h"
 
 void	texture_end_fixer(t_map_info *map)
 {

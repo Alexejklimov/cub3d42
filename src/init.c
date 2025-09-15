@@ -6,28 +6,27 @@
 /*   By: nmagomad <nmagomad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:35:04 by nmagomad          #+#    #+#             */
-/*   Updated: 2025/09/15 13:00:47 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/09/15 16:25:50 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "cub3d.h"
 
-void	debug_print(t_game *game);
 void	errexit(t_game *game, char *msg);
 
 static	int	allocate_map(t_game *game)
 {
-	size_t	i;
+	int	i;
 
 	if (!game)
 		return (-1);
-	game->map = malloc(game->map_info->y * sizeof(int *));
+	game->map = malloc(game->map_height * sizeof(int *));
 	if (!game->map)
 	{
 		perror("out of memory");
 		return (-1);
 	}
-	game->map[0] = malloc(game->map_info->x * game->map_info->y * sizeof(int));
+	game->map[0] = malloc(game->map_width * game->map_height * sizeof(int));
 	if (!game->map[0])
 	{
 		perror("out of memory");
@@ -35,9 +34,9 @@ static	int	allocate_map(t_game *game)
 		return (-1);
 	}
 	i = 1;
-	while (i < game->map_info->y)
+	while (i < game->map_height)
 	{
-		game->map[i] = game->map[0] + i * game->map_info->x;
+		game->map[i] = game->map[0] + i * game->map_width;
 		i++;
 	}
 	return (0);
@@ -45,24 +44,18 @@ static	int	allocate_map(t_game *game)
 
 static void	convert_map_to_int(t_game *game)
 {
-	size_t	i;
-	size_t	j;
+	int	i;
+	int	j;
 
 	i = 0;
-	// size_t	rows = game->map_info->x;
-	// size_t	calls = game->map_info->y;
-	while (i < game->map_info->x)
+	while (i < game->map_width)
 	{
 		j = 0;
-		while (j < game->map_info->y)
+		while (j < game->map_height)
 		{
 			if (game->map_info->map[i][j] == '1')
-				// game->map[i][j] = 1;
-				// game->map[calls - j - 1][i] = 1;
 				game->map[j][i] = 1;
 			else
-				// game->map[i][j] = 0;
-				// game->map[calls - j - 1][i] = 0;
 				game->map[j][i] = 0;
 			j++;
 		}
@@ -87,14 +80,10 @@ static	void	init_direction(t_game *game)
 		panic("Error: Pointer `game or man_info` is NULL");
 	ft_memset(&direction, 0, sizeof(direction));
 	dir = game->map_info->start_orient;
-	direction['N'] = (t_camera){0, -1, 0.66, 0}; // old
-	// direction['N'] = (t_vector){-1, 0, 0, 0.66};
-	direction['S'] = (t_camera){0, 1, -0.66, 0}; // old
-	// direction['S'] = (t_vector){1, 0, 0, 0.66};
-	direction['E'] = (t_camera){1, 0, 0, 0.66}; // old
-	// direction['E'] = (t_vector){0, 1, -0.66, 0};
-	direction['W'] = (t_camera){-1, 0, 0, 0.66}; //old
-	// direction['W'] = (t_vector){0, -1, 0.66, 0};
+	direction['N'] = (t_camera){0, -1, 0.66, 0};
+	direction['S'] = (t_camera){0, 1, -0.66, 0};
+	direction['E'] = (t_camera){1, 0, 0, 0.66};
+	direction['W'] = (t_camera){-1, 0, 0, -0.66};
 	if (direction[(int)dir].dirx || direction[(int)dir].diry
 		|| direction[(int)dir].planex || direction[(int)dir].planey)
 	{
@@ -105,8 +94,7 @@ static	void	init_direction(t_game *game)
 	}
 	else
 		panic("Error: orientation of spwning is rong");
-	game->player.angle = atan2(game->player.dx, game->player.y);
-	game->player.angle -= M_PI / 2.0;
+	game->player.angle = atan2(game->player.dy, game->player.dx);
 }
 
 static void	init_ceiling_floor_color(t_game *game)
@@ -178,8 +166,8 @@ int	init(t_game *game)
 	init_direction(game);
 	init_ceiling_floor_color(game);
 	game->oldtime = 0;
-	game->map_width = game->map_info->x;
-	game->map_height = game->map_info->y;
+	game->map_width = (int)game->map_info->x;
+	game->map_height = (int)game->map_info->y;
 	if (allocate_map(game) != 0)
 		return (-1);
 	convert_map_to_int(game);

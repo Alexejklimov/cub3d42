@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmagomad <nmagomad@student.42mulhouse.f    +#+  +:+       +#+        */
+/*   By: nmagomad <nmagomad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 13:39:13 by nmagomad          #+#    #+#             */
-/*   Updated: 2025/08/24 15:59:19 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/09/15 15:01:43 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "cub3d.h"
 
 void	print_map(t_game *game);
 void	render(t_game *game, int x, t_raycast *ray, t_wall *wall);

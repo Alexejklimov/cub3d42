@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nmagomad <nmagomad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:56:02 by oklimov           #+#    #+#             */
-/*   Updated: 2025/08/26 22:35:31 by oklimov          ###   ########.fr       */
+/*   Updated: 2025/09/15 14:45:09 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
+#include "cub3d.h"
 
 void	parse_map(char *file, t_map_info *map_info)
 {
