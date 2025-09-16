@@ -16,7 +16,7 @@ SRCS		:= src/cub3d.c src/parsing/read_and_separate.c src/utils/utils.c	\
 			src/parsing/parsing_utils.c src/parsing/parse_map.c					\
 			src/raycasting/handle_movement.c src/raycasting/raycasting.c		\
 			src/raycasting/render.c src/raycasting/render_utils.c src/init.c	\
-			src/init_mlx.c src/raycasting/color_utils.c							\
+			src/init_mlx.c src/raycasting/color_utils.c src/utils/clean.c		\
 
 BONUS_SRCS	:= src/bonus/render_mini_map.c src/bonus/init_minimap.c				\
 			src/bonus/draw.c													\
@@ -43,7 +43,7 @@ CC			= cc
 CFLAGS		= -Wall -Werror -Wextra -O3 -g
 MLX_FLAGS 	= -ldl -lglfw -pthread -lm
 
-$(NAME): $(OBJS) ${LIBMLX} ${PRINTF} ${LIBFT}
+$(NAME): ${LIBMLX} ${PRINTF} ${LIBFT} $(OBJS)
 	@${CC} ${OBJS} -o ${NAME} ${LIBS} ${MLX_FLAGS}
 	@echo "Mandatory version compiled successfully!"
 
@@ -58,7 +58,7 @@ src/bonus/%.o: src/bonus/%.c
 
 all: $(NAME)
 
-bonus: $(OBJS) $(BONUS_OBJS) ${LIBMLX} ${PRINTF} ${LIBFT}
+bonus: ${LIBMLX} ${PRINTF} ${LIBFT} $(OBJS) $(BONUS_OBJS) 
 	@${CC} ${OBJS} $(BONUS_OBJS) -o ${NAME} ${LIBS} ${MLX_FLAGS}
 	@echo "Bonus version compiled successfully!"
 

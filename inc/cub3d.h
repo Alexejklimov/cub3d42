@@ -15,7 +15,7 @@
 
 # include "../libraries/printf/ft_printf.h"
 # include "../libraries/libft/libft.h"
-# include "MLX42.h"
+# include "../libraries/MLX42/include/MLX42/MLX42.h"
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
@@ -186,6 +186,10 @@ void		put_pixel(mlx_image_t *image, int x, int y, uint32_t color);
 double		ft_get_time(void);
 void		panic(char *s);
 void		errexit(t_game *game, char *msg);
+
+//====		Clean						======//
+
+void		cleanup(t_game *game);
 
 //=========	Raycasting and render		======//
 

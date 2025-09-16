@@ -12,9 +12,6 @@
 
 #include "cub3d.h"
 
-void	load_texture(t_game *game);
-void	cleanup(t_game *game);
-
 void	debug_print(t_game *game)
 {
 	printf("player.dx=%f, player.dy=%f, player.plane.x=%f, player.plane.y=%f\n",
@@ -84,12 +81,12 @@ void	check_struct(t_map_info *map)
 }
 //////////////////// service function to verify struct t_map_info
 
-void game_loop(void *param)
+void	game_loop(void *param)
 {
-    t_game	*game;
+	t_game	*game;
 	double	time;
 	double	frame_time;
-	
+
 	game = (t_game *)param;
 	time = ft_get_time();
 	if (game->first_frame)
@@ -100,13 +97,13 @@ void game_loop(void *param)
 	}
 	else
 		frame_time = (time - game->oldtime) / 1000.0;
-    // if (frame_time > 0)
-        // printf("FPS: %.2f\n", 1.0 / frame_time);
-    game->oldtime = time;
+	// if (frame_time > 0)
+		// printf("FPS: %.2f\n", 1.0 / frame_time);
+	game->oldtime = time;
 	game->move_speed = frame_time * 5.0;
 	game->move_rotate = frame_time * 3.0;
-    handle_movement(game);
-    raycast(game);
+	handle_movement(game);
+	raycast(game);
 	if (BONUS)
 		render_mini_map(game);
 }
@@ -131,9 +128,8 @@ int	main(int ac, char **av)
 	}
 	// printf("################################\n");
 	// print_map(game);
-		
 	mlx_loop_hook(game->mlx, game_loop, game);
-    mlx_loop(game->mlx);
+	mlx_loop(game->mlx);
 	cleanup(game);
 	return (0);
 }
