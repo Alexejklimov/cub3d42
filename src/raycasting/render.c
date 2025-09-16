@@ -6,16 +6,11 @@
 /*   By: nmagomad <nmagomad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 17:58:44 by nmagomad          #+#    #+#             */
-/*   Updated: 2025/09/15 15:00:05 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/09/16 17:14:43 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-mlx_image_t	*get_curr_texture(t_game *game, t_raycast *ray);
-void		compute_wall_hit_position(t_raycast *ray, t_wall *wall);
-int			step_texture_y(t_wall *wall);
-double		calculate_wall_brightness(t_raycast *ray);
 
 void	calculate_wall_geometry(t_raycast *ray)
 {
@@ -76,7 +71,7 @@ void	render(t_game *game, int x, t_raycast *ray, t_wall *wall)
 		else if (y >= ray->wall.start && y <= ray->wall.end)
 		{
 			step_texture_y(wall);
-			tex_color = get_texture_color(wall->image, wall->tex_x, wall->tex_y);
+			tex_color = get_tex_color(wall->image, wall->tex_x, wall->tex_y);
 			tex_color = apply_brightness(tex_color, wall->brightness, 255);
 			put_pixel(game->image, x, y, tex_color);
 		}

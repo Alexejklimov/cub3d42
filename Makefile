@@ -15,20 +15,25 @@ NAME		:=	cub3d
 SRCS		:= src/cub3d.c src/parsing/read_and_separate.c src/utils/utils.c	\
 			src/parsing/parsing_utils.c src/parsing/parse_map.c					\
 			src/raycasting/handle_movement.c src/raycasting/raycasting.c		\
-			src/raycasting/render.c src/raycasting/render_utils.c src/init.c 	\
-			src/bonus/render_mini_map.c src/bonus/init_minimap.c				\
+			src/raycasting/render.c src/raycasting/render_utils.c src/init.c	\
+			src/init_mlx.c src/raycasting/color_utils.c							\
+
+BONUS_SRCS	:= src/bonus/render_mini_map.c src/bonus/init_minimap.c				\
 			src/bonus/draw.c													\
 
 OBJS		:= $(SRCS:%.c=%.o)
 
+BONUS_OBJS	:= $(BONUS_SRCS:%.c=%.o)
+
 LIBFT_DIR	:= libraries/libft
 PRINTF_DIR	:= libraries/printf
 MLX_DIR		:= libraries/MLX42
-OBJ_DIR		:= .build
 
 LIBFT		:= $(LIBFT_DIR)/libft.a
-LIBMLX		:= $(MLX_DIR)/build/libmlx42.a
 PRINTF		:= $(PRINTF_DIR)/libftprintf.a
+LIBMLX		:= $(MLX_DIR)/build/libmlx42.a
+
+LIBS		:= $(LIBFT) $(PRINTF) $(LIBMLX)
 
 MLX_URL		:= https://github.com/codam-coding-college/MLX42.git
 
@@ -39,16 +44,26 @@ CFLAGS		= -Wall -Werror -Wextra -O3 -g
 MLX_FLAGS 	= -ldl -lglfw -pthread -lm
 
 $(NAME): $(OBJS) ${LIBMLX} ${PRINTF} ${LIBFT}
-	@${CC} ${OBJS} -o ${NAME} ${PRINTF} ${LIBFT} ${LIBMLX} ${MLX_FLAGS}
+	@${CC} ${OBJS} -o ${NAME} ${LIBS} ${MLX_FLAGS}
+	@echo "Mandatory version compiled successfully!"
 
 %.o: %.c
 	@$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
+	@echo "Compiled: $<"
 
+src/bonus/%.o: src/bonus/%.c
+	@$(CC) $(CFLAGS) $(HEADERS) -D BONUS=1 -c src/cub3d.c -o src/cub3d.o
+	@$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
+	@echo "Compiled bonus: $<"
 
 all: $(NAME)
 
+bonus: $(OBJS) $(BONUS_OBJS) ${LIBMLX} ${PRINTF} ${LIBFT}
+	@${CC} ${OBJS} $(BONUS_OBJS) -o ${NAME} ${LIBS} ${MLX_FLAGS}
+	@echo "Bonus version compiled successfully!"
+
 clean:
-	@rm -f $(OBJS)
+	@rm -f $(OBJS) $(BONUS_OBJS)
 	@rm -rf $(MLX_DIR)/build
 	@make --no-print-directory -C libraries/printf clean
 	@make --no-print-directory -C libraries/libft clean
@@ -62,6 +77,9 @@ fclean: clean
 
 re: fclean all
 
+${LIBFT}:
+	@make -C libraries/libft
+
 $(PRINTF):
 	@make --no-print-directory -C libraries/printf
 
@@ -72,7 +90,4 @@ $(LIBMLX):
 	fi
 	@cmake $(MLX_DIR) -B $(MLX_DIR)/build && make -C $(MLX_DIR)/build -j4
 
-${LIBFT}:
-	@make -C libraries/libft
-
-.PHONY: all clean fclean re build
+.PHONY: all clean fclean re bonus

@@ -12,14 +12,8 @@
 
 #include "cub3d.h"
 
-void	game_loop(void *param);
-int		init(t_game *game);
-void	raycast(t_game *game);
-void	handle_movement(t_game *game);
-double	ft_get_time(void);
 void	load_texture(t_game *game);
 void	cleanup(t_game *game);
-void	render_mini_map(t_game *game);
 
 void	debug_print(t_game *game)
 {
@@ -34,8 +28,8 @@ void	print_map(t_game *game)
 {
 	size_t	i = 0, j = 0;
 
-	size_t	rows = game->map_info->y;
-	size_t	cols = game->map_info->x;
+	size_t	rows = game->map_height;
+	size_t	cols = game->map_width;
 	while (i < rows)
 	{
 		j = 0;
@@ -113,7 +107,8 @@ void game_loop(void *param)
 	game->move_rotate = frame_time * 3.0;
     handle_movement(game);
     raycast(game);
-	render_mini_map(game);
+	if (BONUS)
+		render_mini_map(game);
 }
 
 int	main(int ac, char **av)

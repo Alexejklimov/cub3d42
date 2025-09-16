@@ -29,12 +29,15 @@
 # define SCREEN_HEIGHT 1024
 # define MINI_MAP_RAYS 200
 
+# ifndef BONUS
+#  define BONUS 0
+# endif
+
 typedef struct s_point
 {
 	int	x;
 	int	y;
 }		t_point;
-
 
 typedef struct s_camera
 {
@@ -119,19 +122,6 @@ typedef struct s_raycast
 	t_wall	wall;
 }			t_raycast;
 
-/* typedef struct s_tex_info
-{
-	xpm_t		*nord_tex;
-	xpm_t		*south_tex;
-	xpm_t		*west_tex;
-	xpm_t		*east_tex;
-	mlx_image_t	texture[4];
-	mlx_image_t	*nwall;
-	mlx_image_t	*swall;
-	mlx_image_t	*ewall;
-	mlx_image_t	*wwall;
-}				t_tex_info; */
-
 typedef struct s_game
 {
 	mlx_t		*mlx;
@@ -161,7 +151,7 @@ typedef enum e_texture
 	CEIL
 }	t_texture;
 
-//=			Parsing		=//
+//======	Parsing		======//
 
 char		**read_map(char *map_file);
 int			rgb_parse(char *line, int *dest);
@@ -184,15 +174,34 @@ void		fill_start_pos_orient(t_map_info *map_info);
 size_t		longest_row(char	**map);
 char		*fix_line(char	*str, size_t max_len);
 
-//=			Render utils	=//
+//======	Render utils				======//
 
-uint32_t	get_texture_color(mlx_image_t *texture, int tex_x, int tex_y);
+uint32_t	get_tex_color(mlx_image_t *texture, int tex_x, int tex_y);
 uint32_t	apply_brightness(uint32_t color, double brightness, int alpha);
 uint32_t	create_color(int r, int g, int b, int a);
 void		put_pixel(mlx_image_t *image, int x, int y, uint32_t color);
 
-//=			Utils	=//
+//====		Utils						======//
 
+double		ft_get_time(void);
 void		panic(char *s);
+void		errexit(t_game *game, char *msg);
+
+//=========	Raycasting and render		======//
+
+mlx_image_t	*get_curr_texture(t_game *game, t_raycast *ray);
+double		calculate_wall_brightness(t_raycast *ray);
+void		render(t_game *game, int x, t_raycast *ray, t_wall *wall);
+void		prepare_wall_render(t_game *game, t_raycast *ray, t_wall *wall);
+void		compute_wall_hit_position(t_raycast *ray, t_wall *wall);
+int			step_texture_y(t_wall *wall);
+void		game_loop(void *param);
+int			init(t_game *game);
+void		init_mlx(t_game *game);
+void		raycast(t_game *game);
+void		handle_movement(t_game *game);
+
+//==		Bonus						======//
+void		render_mini_map(t_game *game);
 
 #endif

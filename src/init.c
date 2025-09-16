@@ -6,13 +6,11 @@
 /*   By: nmagomad <nmagomad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:35:04 by nmagomad          #+#    #+#             */
-/*   Updated: 2025/09/15 16:25:50 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/09/16 17:05:02 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-void	errexit(t_game *game, char *msg);
 
 static	int	allocate_map(t_game *game)
 {
@@ -115,59 +113,17 @@ static void	init_ceiling_floor_color(t_game *game)
 	game->floor_color = create_color(r, g, b, 255);
 }
 
-int	load_texture(t_game *game)
-{
-	xpm_t		*xpm;
-	char		*path;
-	int			i;
-
-	i = 0;
-	while (i < 4)
-	{
-		path = game->map_info->texture[i];
-		xpm = mlx_load_xpm42(path);
-		if (!xpm)
-		{
-			ft_putstr_fd((char *)mlx_strerror(mlx_errno), 2);
-			return (-1);
-		}
-		game->walls[i] = mlx_texture_to_image(game->mlx, &xpm->texture);
-		if (!game->walls[i])
-		{
-			ft_putstr_fd((char *)mlx_strerror(mlx_errno), 2);
-			return (-1);
-		}
-		mlx_delete_xpm42(xpm);
-		i++;
-	}
-	return (0);
-}
-
-void	init_mlx(t_game *game)
-{
-	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Cub3D", false);
-	if (!game->mlx)
-		errexit(game, "Error: init MLX");
-	game->image = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
-	if (!game->image)
-		errexit(game, "Error: creat image");
-	if (mlx_image_to_window(game->mlx, game->image, 0, 0) < 0)
-		errexit(game, "Error: creat image");
-	if (load_texture(game) != 0)
-		errexit(game, 0);
-}
-
 int	init(t_game *game)
 {
 	if (game->map_info->start_pos[0])
-		game->player.x = game->map_info->start_pos[1] + 0.5;
+		game->player.y = game->map_info->start_pos[0] + 0.5;
 	if (game->map_info->start_pos[1])
-	game->player.y = game->map_info->start_pos[0] + 0.5;
-	init_direction(game);
-	init_ceiling_floor_color(game);
+		game->player.x = game->map_info->start_pos[1] + 0.5;
 	game->oldtime = 0;
 	game->map_width = (int)game->map_info->x;
 	game->map_height = (int)game->map_info->y;
+	init_direction(game);
+	init_ceiling_floor_color(game);
 	if (allocate_map(game) != 0)
 		return (-1);
 	convert_map_to_int(game);
