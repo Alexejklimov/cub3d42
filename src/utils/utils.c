@@ -5,17 +5,27 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nmagomad <nmagomad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/24 10:31:57 by oklimov           #+#    #+#             */
-/*   Updated: 2025/09/15 14:45:41 by nmagomad         ###   ########.fr       */
+/*   Created: 2025/09/16 12:34:44 by nmagomad          #+#    #+#             */
+/*   Updated: 2025/09/16 12:36:52 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "cub3d.h"
 
 void	clean_map_info(t_map_info *map_info)
 {
+	int	i;
+	
 	if (map_info->map)
 		free_map(map_info->map);
+	i = 0;
+	while (i < 4)
+	{
+		if (map_info->texture[i])
+			free(map_info->texture[i]);
+		i++;
+	}
 	free(map_info);
 	exit (1);
 }

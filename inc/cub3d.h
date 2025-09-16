@@ -136,7 +136,6 @@ typedef struct s_game
 {
 	mlx_t		*mlx;
 	mlx_image_t	*image;
-	// mlx_image_t	*wall_image;
 	mlx_image_t	*walls[4];
 	t_map_info	*map_info;
 	uint32_t	ceil_color;
@@ -165,7 +164,7 @@ typedef enum e_texture
 //=			Parsing		=//
 
 char		**read_map(char *map_file);
-void		rgb_parse(char *line, int *dest);
+int			rgb_parse(char *line, int *dest);
 int			parse_texture(char **file, t_map_info *map_info);
 char		**separate_map(char **file, t_map_info *map_info);
 void		parse_map(char *file, t_map_info *map_info);
@@ -173,6 +172,7 @@ int			verify_texture(t_map_info *map);
 int			check_map_is_valid(char **map, t_map_info *map_info);
 int			is_symbols_valid_only(char **map);
 int			check_walls_is_valid(char **map);
+int			ft_check_arg(char *mapname, char *ber, int length);
 void		clean_map_info(t_map_info *map_info);
 int			map_info_fill_checker(t_map_info *map);
 

@@ -1,7 +1,7 @@
-NO img/128/duke/north.xpm
-SO img/128/duke/south.xpm
-WE img/128/duke/west.xpm
-EA img/128/duke/east.xpm
+NO textures/test/north.xpm42
+SO textures/test/south.xpm42
+WE textures/test/west.xpm42
+EA textures/test/east.xpm42
 
 F 20,20,20
 C 200,200

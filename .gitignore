@@ -5,6 +5,7 @@ cub3d
 .build/*
 .cache/*
 42-cub3D/*
+libraries/MLX42
 # Prerequisites
 *.d
 

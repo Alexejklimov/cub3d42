@@ -49,13 +49,14 @@ void	print_map(t_game *game)
 	}
 }
 
-int	ft_check_arg(char *mapname, char *ber)
+int	ft_check_arg(char *mapname, char *ber, int length)
 {
 	int	i;
 	int	j;
 
 	i = 0;
 	j = ft_strlen(mapname) - 4;
+	j = ft_strlen(mapname) - length;
 	while (mapname[j] != '\0' && ber[i] != '\0' && mapname[j] == ber[i])
 	{
 		i++;
@@ -122,10 +123,10 @@ int	main(int ac, char **av)
 
 	map = ft_calloc(sizeof(t_map_info), 1);
 	game = ft_calloc(sizeof(t_game), 1);
-	if (ac != 2 || ft_check_arg(av[1], ".cub") != 0)
+	if (ac != 2 || ft_check_arg(av[1], ".cub", 4) != 0)
 		return (ft_printf("Error\n Map path/name isn`t valid\n"));
 	parse_map(av[1], map);
-	check_struct(map);
+	// check_struct(map);
 	/********************************************************************** */
 	game->map_info = map;
 	if (init(game) != 0)
@@ -133,8 +134,8 @@ int	main(int ac, char **av)
 		printf("Error init game\n");
 		return (EXIT_FAILURE);
 	}
-	printf("################################\n");
-	print_map(game);
+	// printf("################################\n");
+	// print_map(game);
 		
 	mlx_loop_hook(game->mlx, game_loop, game);
     mlx_loop(game->mlx);
