@@ -12,10 +12,12 @@
 
 NAME		:=	cub3d
 
-SRCS		:= src/cub3d.c src/parsing/read_and_separate.c src/render_utils.c	\
-			src/utils/utils.c src/parsing/parsing_utils.c src/init.c src/draw.c \
-			src/handle_movement.c src/raycasting.c src/render.c					\
-			src/render_mini_map.c src/init_minimap.c src/parsing/parse_map.c	\
+SRCS		:= src/cub3d.c src/parsing/read_and_separate.c src/utils/utils.c	\
+			src/parsing/parsing_utils.c src/parsing/parse_map.c					\
+			src/raycasting/handle_movement.c src/raycasting/raycasting.c		\
+			src/raycasting/render.c src/raycasting/render_utils.c src/init.c 	\
+			src/bonus/render_mini_map.c src/bonus/init_minimap.c				\
+			src/bonus/draw.c													\
 
 OBJS		:= $(SRCS:%.c=%.o)
 
@@ -30,7 +32,6 @@ PRINTF		:= $(PRINTF_DIR)/libftprintf.a
 
 MLX_URL		:= https://github.com/codam-coding-college/MLX42.git
 
-# HEADERS 	:= -I./inc -I./$(PRINTF_DIR)/include -I./$(MLX_DIR)/include -I./$(LIBFT_DIR)
 HEADERS 	:= -I./inc -I./$(PRINTF_DIR)/include -I./$(LIBFT_DIR)
 
 CC			= cc
