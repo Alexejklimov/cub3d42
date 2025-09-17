@@ -1,0 +1,113 @@
+{
+   libLLVM-15-memleaks
+   Memcheck:Leak
+   fun:operator new*
+   obj:/usr/lib/x86_64-linux-gnu/libLLVM-15.so.1
+}
+
+{
+   libLLVM-15-internal-functions
+   Memcheck:Leak
+   fun:*LLVM*
+   obj:/usr/lib/x86_64-linux-gnu/libLLVM-15.so.1
+}
+
+{
+   libLLVM-15-unknown-functions
+   Memcheck:Leak
+   obj:/usr/lib/x86_64-linux-gnu/libLLVM-15.so.1
+}
+
+{
+   libLLVM-15-dl-init
+   Memcheck:Leak
+   fun:call_init.part.0
+   fun:call_init
+   fun:_dl_init
+   fun:dl_open_worker
+   obj:/usr/lib/x86_64-linux-gnu/libLLVM-15.so.1
+}
+
+{
+   libLLVM-15-std-template
+   Memcheck:Leak
+   fun:*std::_Rb_tree*
+   obj:/usr/lib/x86_64-linux-gnu/libLLVM-15.so.1
+}
+
+{
+   libLLVM-15-cl-option
+   Memcheck:Leak
+   fun:llvm::cl::Option::addArgument*
+   obj:/usr/lib/x86_64-linux-gnu/libLLVM-15.so.1
+}
+
+{
+   libLLVM-15-specific-leak-chain
+   Memcheck:Leak
+   fun:operator new*
+   obj:/usr/lib/x86_64-linux-gnu/libLLVM-15.so.1
+   ...
+   fun:llvm::cl::Option::addArgument*
+   ...
+   fun:call_init.part.0
+   fun:call_init
+   fun:_dl_init
+   fun:_dl_catch_exception
+   fun:dl_open_worker
+   fun:_dl_open
+   fun:dlopen_doit
+}
+
+{
+   libLLVM-15-all
+   Memcheck:Leak
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/libLLVM-15.so.1
+}
+
+{
+   libstdc++-malloc-dl-init
+   Memcheck:Leak
+   fun:malloc
+   obj:/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30
+   ...
+   fun:call_init.part.0
+   fun:call_init
+   fun:_dl_init
+   fun:_dl_catch_exception
+   fun:dl_open_worker
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_error
+   fun:_dlerror_run
+}
+
+{
+   libstdc++-all-dl-init
+   Memcheck:Leak
+   obj:/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30
+   ...
+   fun:call_init*
+   fun:_dl_init
+   fun:*dlopen*
+   fun:*dlopen_doit*
+   fun:_dl_catch_exception
+   fun:_dl_catch_error
+   fun:_dlerror_run
+}
+
+{
+   all-libraries-dl-init
+   Memcheck:Leak
+   ...
+   fun:call_init.part.0
+   fun:call_init
+   fun:_dl_init
+   fun:_dl_catch_exception
+   fun:dl_open_worker
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_error
+   fun:_dlerror_run
+}

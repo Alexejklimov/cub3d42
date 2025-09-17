@@ -40,11 +40,13 @@ MLX_URL		:= https://github.com/codam-coding-college/MLX42.git
 HEADERS 	:= -I./inc -I./$(PRINTF_DIR)/include -I./$(LIBFT_DIR)
 
 CC			= cc
-CFLAGS		= -Wall -Werror -Wextra -O3 -g
+CFLAGS		= -Wall -Werror -Wextra -O3
+CFLAGS		= -Wall -Werror -Wextra -O3 -fsanitize=address -fsanitize=undefined
 MLX_FLAGS 	= -ldl -lglfw -pthread -lm
 
 $(NAME): ${LIBMLX} ${PRINTF} ${LIBFT} $(OBJS)
-	@${CC} ${OBJS} -o ${NAME} ${LIBS} ${MLX_FLAGS}
+# 	@${CC} ${OBJS} -o ${NAME} ${LIBS} ${MLX_FLAGS}
+	@${CC} ${OBJS} -o ${NAME} ${LIBS} ${MLX_FLAGS} -fsanitize=address -fsanitize=undefined
 	@echo "Mandatory version compiled successfully!"
 
 %.o: %.c

@@ -1,0 +1,43 @@
+{
+   libLLVM-15-memleaks
+   Memcheck:Leak
+   fun:operator new*
+   obj:/usr/lib/x86_64-linux-gnu/libLLVM-15.so.1
+}
+
+{
+   libLLVM-15-internal-functions
+   Memcheck:Leak
+   fun:*LLVM*
+   obj:/usr/lib/x86_64-linux-gnu/libLLVM-15.so.1
+}
+
+{
+   libLLVM-15-unknown-functions
+   Memcheck:Leak
+   obj:/usr/lib/x86_64-linux-gnu/libLLVM-15.so.1
+}
+
+{
+   libLLVM-15-dl-init
+   Memcheck:Leak
+   fun:call_init.part.0
+   fun:call_init
+   fun:_dl_init
+   fun:dl_open_worker
+   obj:/usr/lib/x86_64-linux-gnu/libLLVM-15.so.1
+}
+
+{
+   libLLVM-15-std-template
+   Memcheck:Leak
+   fun:*std::_Rb_tree*
+   obj:/usr/lib/x86_64-linux-gnu/libLLVM-15.so.1
+}
+
+{
+   libLLVM-15-all
+   Memcheck:Leak
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/libLLVM-15.so.1
+}

@@ -12,15 +12,6 @@
 
 #include "cub3d.h"
 
-void	debug_print(t_game *game)
-{
-	printf("player.dx=%f, player.dy=%f, player.plane.x=%f, player.plane.y=%f\n",
-		game->player.dx,
-		game->player.dy,
-		game->player.plane_x,
-		game->player.plane_y);
-}
-
 void	print_map(t_game *game)
 {
 	size_t	i = 0, j = 0;

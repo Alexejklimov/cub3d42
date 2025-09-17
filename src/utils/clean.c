@@ -6,7 +6,7 @@
 /*   By: nmagomad <nmagomad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 18:12:25 by nmagomad          #+#    #+#             */
-/*   Updated: 2025/09/16 18:17:12 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/09/17 14:47:57 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,10 @@ void	clean_map(t_game *game)
 {
 	if (game->map[0])
 		free(game->map[0]);
+	game->map[0] = NULL;
 	if (game->map)
 		free(game->map);
-	game->map[0] = NULL;
 	game->map = NULL;
-	game = NULL;
 }
 
 void	free_map(char **map)
@@ -70,8 +69,6 @@ void	cleanup(t_game *game)
 		mlx_delete_image(game->mlx, game->image);
 	if (game->mlx)
 		mlx_terminate(game->mlx);
-	if (game->map_info)
-		clean_map_info(game->map_info);
 	if (game->map)
 		clean_map(game);
 	if (game)

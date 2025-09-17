@@ -6,7 +6,7 @@
 /*   By: nmagomad <nmagomad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:45:49 by nmagomad          #+#    #+#             */
-/*   Updated: 2025/09/16 17:47:11 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/09/17 15:17:50 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,16 @@ uint32_t	get_tex_color(mlx_image_t *texture, int tex_x, int tex_y)
 		|| tex_y < 0 || tex_y >= (int)texture->height)
 		return (0xFF000000);
 	pixel = &texture->pixels[(tex_y * texture->width + tex_x) * 4];
-	return ((pixel[3] << 24) | (pixel[0] << 16) | (pixel[1] << 8) | pixel[2]);
+	return (((uint32_t)pixel[3] << 24)
+		| ((uint32_t)pixel[0] << 16)
+		| ((uint32_t)pixel[1] << 8)
+		| (uint32_t)pixel[2]);
 }
 
 uint32_t	create_color(int r, int g, int b, int a)
 {
-	return (r << 24 | g << 16 | b << 8 | a);
+	return ((uint32_t)r << 24
+		| (uint32_t)g << 16
+		| (uint32_t)b << 8
+		| (uint32_t)a);
 }
