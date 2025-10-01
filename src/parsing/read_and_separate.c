@@ -68,7 +68,7 @@ int	rgb_parse(char *line, int *dest)
 	while (split_arr[i])
 		i++;
 	if (i != 3)
-			panic("Error\ncolor info incorrect");
+		panic("Error\ncolor info incorrect");
 	i = 0;
 	while (i < 3)
 	{
@@ -96,10 +96,10 @@ int	verify_texture(t_map_info *map)
 		fd = 0;
 		fd = open(map->texture[i], O_RDONLY);
 		if (fd < 0)
-			return (printf("Error\ncannot open file\n"), 0);
+			panic("Error\ncannot open file");
 		close(fd);
 		if (ft_check_arg(map->texture[i], ".xpm42", 6))
-			return (printf("Error\ntexture file incorrect"), 0);
+			panic("Error\ntexture file incorrect");
 		i++;
 	}
 	i = 0;
@@ -157,7 +157,7 @@ int	parse_texture(char **file, t_map_info *map_info)
 		i++;
 	}
 	if (acc != 6)
-		return ( 0);
+		return (0);
 	return (i);
 }
 
