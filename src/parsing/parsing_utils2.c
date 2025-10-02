@@ -6,11 +6,11 @@
 /*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 14:42:16 by oklimov           #+#    #+#             */
-/*   Updated: 2025/10/02 14:43:51 by oklimov          ###   ########.fr       */
+/*   Updated: 2025/10/02 14:50:41 by oklimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../../inc/cub3d.h"
 
 int	parse_texture(char **file, t_map_info *map_info)
 {
@@ -54,31 +54,14 @@ void	is_end_of_file(char **file, char **separated_map, int i)
 	}
 }
 
-char	**separate_map(char **file, t_map_info *map_info)
+int	check_map_is_valid(char **map, t_map_info *map_info)
 {
-	int			i;
-	int			j;
-	int			acc;
-	char		**separated_map;
-
-	i = 0;
-	while (i < 3)
-	{
-		map_info->floor_rgb[i] = -1;
-		map_info->ceil_rgb[i] = -1;
-		i++;
-	}
-	i = parse_texture(file, map_info);
-	if (i == 0)
-		return (printf("Error\nincorrect file info"), free_map(file), NULL);
-	acc = i;
-	while (file[acc] != NULL)
-		acc++;
-	separated_map = malloc(sizeof(char *) * acc);
-	j = 0;
-	while (file[i] && file[i][0] != '\n')
-		separated_map[j++] = ft_strdup(file[i++]);
-	separated_map[j] = NULL;
-	is_end_of_file(file, separated_map, i);
-	return (free_map(file), separated_map);
+	if (!is_symbols_valid_only(map))
+		return (0);
+	if (!verify_texture(map_info))
+		return (ft_printf("Error\nTexture data not valid\n"), 0);
+	if (!check_walls_is_valid(map))
+		return (ft_printf("Error\nWalls is invalid\n"), 0);
+	make_map_rectangular(map, map_info);
+	return (1);
 }

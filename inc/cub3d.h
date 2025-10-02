@@ -165,7 +165,7 @@ int			check_walls_is_valid(char **map);
 int			ft_check_arg(char *mapname, char *ber, int length);
 void		clean_map_info(t_map_info *map_info);
 int			map_info_fill_checker(t_map_info *map);
-
+int			fill_texture_struct(t_map_info *map, char *line, int num);
 void		make_map_rectangular(char **map, t_map_info *map_info);
 void		free_map(char **map);
 void		fill_start_pos_orient(t_map_info *map_info);

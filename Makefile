@@ -17,6 +17,7 @@ SRCS		:= src/cub3d.c src/parsing/read_and_separate.c src/utils/utils.c	\
 			src/raycasting/handle_movement.c src/raycasting/raycasting.c		\
 			src/raycasting/render.c src/raycasting/render_utils.c src/init.c	\
 			src/init_mlx.c src/raycasting/color_utils.c src/utils/clean.c		\
+			src/parsing/parsing_utils2.c										\
 
 BONUS_SRCS	:= src/bonus/render_mini_map.c src/bonus/init_minimap.c				\
 			src/bonus/draw.c													\
