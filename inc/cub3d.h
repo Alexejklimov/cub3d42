@@ -173,6 +173,7 @@ void		texture_end_fixer(t_map_info *map);
 void		fill_start_pos_orient(t_map_info *map_info);
 size_t		longest_row(char	**map);
 char		*fix_line(char	*str, size_t max_len);
+void		is_end_of_file(char **file, char **separated_map, int i);
 
 //======	Render utils				======//
 
