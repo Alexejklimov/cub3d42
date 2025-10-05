@@ -6,7 +6,7 @@
 /*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:56:02 by oklimov           #+#    #+#             */
-/*   Updated: 2025/10/02 14:50:47 by oklimov          ###   ########.fr       */
+/*   Updated: 2025/10/05 18:05:43 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,14 @@ void	parse_map(char *file, t_map_info *map_info)
 	{
 		free_map(buffer_map);
 		clean_map_info(map_info);
+		exit(1);
 	}
 	fill_start_pos_orient(map_info);
 	if (!map_info_fill_checker(map_info))
 	{
 		free_map(buffer_map);
 		clean_map_info(map_info);
+		exit(1);
 	}
 	free_map(buffer_map);
 }

@@ -6,7 +6,7 @@
 /*   By: nmagomad <nmagomad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 18:12:25 by nmagomad          #+#    #+#             */
-/*   Updated: 2025/09/17 14:47:57 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/10/05 18:07:13 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	clean_map_info(t_map_info *map_info)
 		i++;
 	}
 	free(map_info);
-	exit (1);
 }
 
 void	clean_map(t_game *game)

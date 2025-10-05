@@ -6,7 +6,7 @@
 /*   By: nmagomad <nmagomad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:35:04 by nmagomad          #+#    #+#             */
-/*   Updated: 2025/09/16 17:05:02 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/10/05 18:18:18 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void	convert_map_to_int(t_game *game)
 }
 
 /*
- * | Направление | dirX | dirY | planeX | planeY |
+ * | Directions  | dirX | dirY | planeX | planeY |
  * | ----------- | ---- | ---- | ------ | ------ |
  * | **N**       | 0    | -1   | 0.66   | 0      |
  * | **S**       | 0    | 1    | -0.66  | 0      |
@@ -125,7 +125,11 @@ int	init(t_game *game)
 	init_direction(game);
 	init_ceiling_floor_color(game);
 	if (allocate_map(game) != 0)
+	{
+		clean_map_info(game->map_info);
+		free(game);
 		return (-1);
+	}
 	convert_map_to_int(game);
 	init_mlx(game);
 	return (0);
