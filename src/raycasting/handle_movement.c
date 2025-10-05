@@ -6,7 +6,7 @@
 /*   By: nmagomad <nmagomad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 13:36:53 by nmagomad          #+#    #+#             */
-/*   Updated: 2025/09/16 17:50:36 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/10/05 17:07:19 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,6 @@ void	move(t_game *game, double axis_x, double axis_y, int sign)
 		printf("Error: sing is not correct\n");
 		return ;
 	}
-	// if (new_x >= 0 && new_x < width && new_y >= 0 && new_y < height)
-	// if (new_x >= 0.50 && new_x < width - 0.50 && new_y >= 0.50
-	//	&& new_y < height - 0.50)
 	if (new_x >= 0.50 && new_x < height - 0.50 && new_y >= 0.50
 		&& new_y < width - 0.50)
 	{

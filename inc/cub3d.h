@@ -27,7 +27,7 @@
 
 # define SCREEN_WIDTH 1280
 # define SCREEN_HEIGHT 1024
-# define MINI_MAP_RAYS 200
+# define MINI_MAP_RAYS 80
 
 # ifndef BONUS
 #  define BONUS 0

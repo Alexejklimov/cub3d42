@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-void	print_map(t_game *game)
+/* void	print_map(t_game *game)
 {
 	size_t	i = 0, j = 0;
 
@@ -29,7 +29,7 @@ void	print_map(t_game *game)
 		printf("\n");
 		i++;
 	}
-}
+} */
 
 int	ft_check_arg(char *mapname, char *ber, int length)
 {
@@ -88,8 +88,6 @@ void	game_loop(void *param)
 	}
 	else
 		frame_time = (time - game->oldtime) / 1000.0;
-	// if (frame_time > 0)
-		// printf("FPS: %.2f\n", 1.0 / frame_time);
 	game->oldtime = time;
 	game->move_speed = frame_time * 5.0;
 	game->move_rotate = frame_time * 3.0;
@@ -117,8 +115,6 @@ int	main(int ac, char **av)
 		printf("Error init game\n");
 		return (EXIT_FAILURE);
 	}
-	// printf("################################\n");
-	// print_map(game);
 	mlx_loop_hook(game->mlx, game_loop, game);
 	mlx_loop(game->mlx);
 	cleanup(game);

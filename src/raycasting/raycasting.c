@@ -6,7 +6,7 @@
 /*   By: nmagomad <nmagomad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 13:39:13 by nmagomad          #+#    #+#             */
-/*   Updated: 2025/09/16 17:55:30 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/10/05 17:06:23 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static void	init_raycast(t_game *game, t_raycast *ray, int x)
 	ray->camera_x = 2 * x / (double)SCREEN_WIDTH - 1;
 	ray->raydir_x = ray->dir_x + ray->plane_x * ray->camera_x;
 	ray->raydir_y = ray->dir_y + ray->plane_y * ray->camera_x;
-	// Текущая позиция на карте
 	ray->map_x = (int)ray->pos_x;
 	ray->map_y = (int)ray->pos_y;
 	if (ray->raydir_x == 0)
@@ -74,7 +73,6 @@ static void	run_dda(t_game *game, t_raycast *ray)
 {
 	while (1)
 	{
-		// Переходим к следующему пересечению сетки
 		if (ray->sidedist_x < ray->sidedist_y)
 		{
 			ray->sidedist_x += ray->deltadist_x;
@@ -85,38 +83,26 @@ static void	run_dda(t_game *game, t_raycast *ray)
 		{
 			ray->sidedist_y += ray->deltadist_y;
 			ray->map_y += ray->step_y;
-			ray->side = 1; // попадание по горизонтальной стороне
+			ray->side = 1;
 		}
-		// Проверяем, попали ли мы в стену
-		/* if (ray->mapX <= 0 &&
-			ray->mapX > game->map_width &&
-			ray->mapY <= 0 &&
-			ray->mapY > game->map_height && */
 		if (game->map[ray->map_x][ray->map_y] > 0)
 			break ;
 	}
 }
 
-// Основная функция raycasting
 void	raycast(t_game *game)
 {
 	int			x;
 	t_raycast	ray;
 	t_wall		wall;
 
-	// Проходим по каждому столбцу экрана
 	x = 0;
 	while (x < SCREEN_WIDTH)
 	{
-		// Инициализация позиции и направления игрока
 		init_raycast(game, &ray, x);
-		// Определяем направление шага и начальное расстояние до стороны
 		calc_side_dist(&ray);
-		// Выполняем DDA (Digital Differential Analyzer)
 		run_dda(game, &ray);
 		calc_perpwalldist(&ray);
-		// printf("%f, wall_height: %d; wall_start: %d; wall_end: %d\n", perpWallDist, wall_height, wall_start, wall_end);
-		// вычисляем высоту стены, начал и конез отрисовки стены, и другие данные для отрисовки
 		prepare_wall_render(game, &ray, &wall);
 		render(game, x, &ray, &wall);
 		x++;
