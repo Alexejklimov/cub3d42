@@ -6,7 +6,7 @@
 /*   By: nmagomad <nmagomad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 18:12:25 by nmagomad          #+#    #+#             */
-/*   Updated: 2025/10/05 18:07:13 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/10/06 19:47:21 by nmagomad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ void	cleanup(t_game *game)
 		mlx_delete_image(game->mlx, game->image);
 	if (game->mlx)
 		mlx_terminate(game->mlx);
+	if (game->map_info)
+		clean_map_info(game->map_info);
 	if (game->map)
 		clean_map(game);
 	if (game)
