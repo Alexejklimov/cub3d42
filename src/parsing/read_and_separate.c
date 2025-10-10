@@ -63,24 +63,24 @@ int	rgb_parse(char *line, int *dest)
 
 	split_arr = ft_split(line, ',');
 	if (!split_arr)
-		panic("malloc problem");
+		return (printf("malloc problem"), 0);
 	i = 0;
 	while (split_arr[i])
 		i++;
 	if (i != 3)
-		panic("Error\ncolor info incorrect");
+		return (printf("Error\ncolor info incorrect"), 0);
 	i = 0;
 	while (i < 3)
 	{
 		if (is_valid_rgb_data(split_arr[i]))
 			dest[i] = ft_atoi(split_arr[i]);
 		else
-			panic("Error\nrgb color incorrect");
+			return (free_map(split_arr), printf("Error\nrgb incorrect"), 0);
 		i++;
 	}
-	if (i != 3)
-		panic("\nkaka\n");
 	free_map(split_arr);
+	if (i != 3)
+		return (printf("Error\nrgb incorrect"), 0);
 	return (1);
 }
 
@@ -96,10 +96,10 @@ int	verify_texture(t_map_info *map)
 		fd = 0;
 		fd = open(map->texture[i], O_RDONLY);
 		if (fd < 0)
-			panic("Error\ncannot open file");
+			return (printf("Error\ncannot open file"), 0);
 		close(fd);
 		if (ft_check_arg(map->texture[i], ".xpm42", 6))
-			panic("Error\ntexture file incorrect");
+			return (printf("Error\ntexture file incorrect"), 0);
 		i++;
 	}
 	i = 0;

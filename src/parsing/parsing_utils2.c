@@ -6,7 +6,7 @@
 /*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 14:42:16 by oklimov           #+#    #+#             */
-/*   Updated: 2025/10/02 14:50:41 by oklimov          ###   ########.fr       */
+/*   Updated: 2025/10/10 18:04:39 by oklimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,19 @@ int	parse_texture(char **file, t_map_info *map_info)
 		i++;
 	}
 	if (acc != 6)
-		return (0);
+		return (clean_map_info(map_info), 0);
 	return (i);
 }
 
-void	is_end_of_file(char **file, char **separated_map, int i)
+void	is_end_of_file(t_map_info *map, char **file, char **sep_map, int i)
 {
 	while (file[i])
 	{
 		if (file[i][0] != '\n')
 		{
-			free_map(separated_map);
+			free_map(sep_map);
 			free_map(file);
+			clean_map_info(map);
 			panic("Error\nextra symbol after map");
 		}
 		i++;

@@ -157,7 +157,7 @@ char		**read_map(char *map_file);
 int			rgb_parse(char *line, int *dest);
 int			parse_texture(char **file, t_map_info *map_info);
 char		**separate_map(char **file, t_map_info *map_info);
-void		parse_map(char *file, t_map_info *map_info);
+int			parse_map(char *file, t_map_info *map_info);
 int			verify_texture(t_map_info *map);
 int			check_map_is_valid(char **map, t_map_info *map_info);
 int			is_symbols_valid_only(char **map);
@@ -173,7 +173,7 @@ void		texture_end_fixer(t_map_info *map);
 void		fill_start_pos_orient(t_map_info *map_info);
 size_t		longest_row(char	**map);
 char		*fix_line(char	*str, size_t max_len);
-void		is_end_of_file(char **file, char **separated_map, int i);
+void		is_end_of_file(t_map_info *map, char **file, char **sep_map, int i);
 
 //======	Render utils				======//
 

@@ -110,9 +110,8 @@ int	main(int ac, char **av)
 		free(game);
 		return (ft_printf("Error\n Map path/name isn`t valid\n"));
 	}
-	parse_map(av[1], map);
-	// check_struct(map);
-	/********************************************************************** */
+	if (!parse_map(av[1], map))
+		return (cleanup(game), 0);
 	game->map_info = map;
 	if (init(game) != 0)
 	{

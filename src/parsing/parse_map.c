@@ -6,33 +6,34 @@
 /*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:56:02 by oklimov           #+#    #+#             */
-/*   Updated: 2025/10/05 18:05:43 by nmagomad         ###   ########.fr       */
+/*   Updated: 2025/10/10 18:08:19 by oklimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
-void	parse_map(char *file, t_map_info *map_info)
+int	parse_map(char *file, t_map_info *map_info)
 {
 	char	**buffer_map;
 
 	buffer_map = separate_map(read_map(file), map_info);
 	if (!buffer_map)
-		exit (1);
+		return (0);
 	if (!check_map_is_valid(buffer_map, map_info))
 	{
 		free_map(buffer_map);
 		clean_map_info(map_info);
-		exit(1);
+		return (0);
 	}
 	fill_start_pos_orient(map_info);
 	if (!map_info_fill_checker(map_info))
 	{
 		free_map(buffer_map);
 		clean_map_info(map_info);
-		exit(1);
+		return (0);
 	}
 	free_map(buffer_map);
+	return (1);
 }
 
 static int	is_valid_surrounding(char **map, size_t x, size_t y)
@@ -103,12 +104,11 @@ char	**separate_map(char **file, t_map_info *map_info)
 	int			acc;
 	char		**separated_map;
 
-	i = 0;
-	while (i < 3)
+	i = -1;
+	while (++i < 3)
 	{
 		map_info->floor_rgb[i] = -1;
 		map_info->ceil_rgb[i] = -1;
-		i++;
 	}
 	i = parse_texture(file, map_info);
 	if (i == 0)
@@ -121,6 +121,6 @@ char	**separate_map(char **file, t_map_info *map_info)
 	while (file[i] && file[i][0] != '\n')
 		separated_map[j++] = ft_strdup(file[i++]);
 	separated_map[j] = NULL;
-	is_end_of_file(file, separated_map, i);
+	is_end_of_file(map_info, file, separated_map, i);
 	return (free_map(file), separated_map);
 }
