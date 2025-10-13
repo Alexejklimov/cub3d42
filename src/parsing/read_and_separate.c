@@ -12,6 +12,26 @@
 
 #include "../../inc/cub3d.h"
 
+int	file_size(char *map_file)
+{
+	int		fd;
+	int		acc;
+	char	*line;
+
+	fd = open(map_file, O_RDONLY);
+	if (fd < 0)
+		return (perror("file size file - Error\n"), 0);
+	line = " ";
+	acc = 1;
+	while (line != NULL)
+	{
+		line = get_next_line(fd);
+		acc++;
+	}
+	close(fd);
+	return (acc);
+}
+
 char	**read_map(char *map_file)
 {
 	int			fd;
@@ -19,10 +39,11 @@ char	**read_map(char *map_file)
 	char		*line;
 	char		**map;
 
+	i = file_size(map_file);
 	fd = open(map_file, O_RDONLY);
 	if (fd < 0)
 		return (perror("open map file - Error\n"), NULL);
-	map = malloc(sizeof(char *) * 256);
+	map = malloc(sizeof(char *) * i);
 	if (!map)
 		return (perror("map memory allocate - Error\n"), NULL);
 	line = " ";
