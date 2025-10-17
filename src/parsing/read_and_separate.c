@@ -28,6 +28,7 @@ int	file_size(char *map_file)
 		line = get_next_line(fd);
 		acc++;
 	}
+	free(line);
 	close(fd);
 	return (acc);
 }
@@ -57,7 +58,7 @@ char	**read_map(char *map_file)
 	close(fd);
 	map[i] = NULL;
 	if (i == 0)
-		printf("error\nempty file");
+		return (printf("Error\nempty file"), NULL);
 	return (map);
 }
 
