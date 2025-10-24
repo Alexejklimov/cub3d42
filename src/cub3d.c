@@ -35,6 +35,7 @@ int	ft_check_arg(char *mapname, char *ber, int length)
 {
 	int	i;
 	int	j;
+	int	fd;
 
 	i = 0;
 	j = ft_strlen(mapname) - 4;
@@ -44,6 +45,10 @@ int	ft_check_arg(char *mapname, char *ber, int length)
 		i++;
 		j++;
 	}
+	fd = open(mapname, O_RDONLY);
+	if (fd == -1)
+		panic("Error: File do not exist");
+	close(fd);
 	return (mapname[j] - ber[i]);
 }
 ////////////////////////////
