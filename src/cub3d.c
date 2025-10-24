@@ -111,7 +111,7 @@ int	main(int ac, char **av)
 		return (ft_printf("Error\n Map path/name isn`t valid\n"), 0);
 	map = ft_calloc(sizeof(t_map_info), 1);
 	if (!parse_map(av[1], map))
-		return (free(map), 0);
+		return (1);
 	game = ft_calloc(sizeof(t_game), 1);
 	game->map_info = map;
 	if (init(game) != 0)

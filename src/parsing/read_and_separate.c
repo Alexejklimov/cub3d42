@@ -26,9 +26,9 @@ int	file_size(char *map_file)
 	while (line != NULL)
 	{
 		line = get_next_line(fd);
+		free(line);
 		acc++;
 	}
-	free(line);
 	close(fd);
 	return (acc);
 }
