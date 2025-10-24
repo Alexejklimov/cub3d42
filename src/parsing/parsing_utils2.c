@@ -6,7 +6,7 @@
 /*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 14:42:16 by oklimov           #+#    #+#             */
-/*   Updated: 2025/10/17 16:18:55 by oklimov          ###   ########.fr       */
+/*   Updated: 2025/10/24 13:28:46 by oklimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	is_end_of_file(t_map_info *map, char **file, char **sep_map, int i)
 			free_map(sep_map);
 			free_map(file);
 			clean_map_info(map);
-			panic("Error\nextra symbol after map");
+			panic("Error\nextra symbol after map\n");
 		}
 		i++;
 	}
@@ -64,5 +64,27 @@ int	check_map_is_valid(char **map, t_map_info *map_info)
 	if (!check_walls_is_valid(map))
 		return (ft_printf("Error\nWalls is invalid\n"), 0);
 	make_map_rectangular(map, map_info);
+	return (1);
+}
+
+int	fill_texture_struct(t_map_info *map, char *line, int num)
+{
+	char	*start;
+
+	while (*line == ' ' || *line == '\t')
+		line++;
+	start = line;
+	while (*line)
+	{
+		if (*line == ' ' || *line == '\t' || *line == '\r')
+		{
+			*line = '\0';
+			break ;
+		}
+		line++;
+	}
+	if (map->texture[num])
+		free(map->texture[num]);
+	map->texture[num] = ft_strdup((const char *)start);
 	return (1);
 }

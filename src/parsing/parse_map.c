@@ -6,7 +6,7 @@
 /*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:56:02 by oklimov           #+#    #+#             */
-/*   Updated: 2025/10/17 16:12:38 by oklimov          ###   ########.fr       */
+/*   Updated: 2025/10/24 13:27:58 by oklimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	is_symbols_valid_only(char **map)
 		while (map[i][j] != '\n' && map[i][j] != '\0')
 		{
 			if (!ft_strchr("NSEW 10", (int)map[i][j]))
-				return (ft_printf("Error\ninvalid symbol in map"), 0);
+				return (ft_printf("Error\ninvalid symbol in map\n"), 0);
 			if (ft_strchr("NSEW", map[i][j]))
 				flag++;
 			j++;
@@ -93,7 +93,7 @@ int	is_symbols_valid_only(char **map)
 		i++;
 	}
 	if (flag != 1)
-		return (ft_printf("Error\nmap file is incorrect"), 0);
+		return (ft_printf("Error\nmap file is incorrect\n"), 0);
 	return (1);
 }
 
@@ -112,7 +112,7 @@ char	**separate_map(char **file, t_map_info *map_info)
 	}
 	i = parse_texture(file, map_info);
 	if (i == 0)
-		return (printf("Error\nincorrect file info"), free_map(file), NULL);
+		return (printf("Error\nincorrect file info\n"), free_map(file), NULL);
 	acc = i;
 	while (file[acc] != NULL)
 		acc++;

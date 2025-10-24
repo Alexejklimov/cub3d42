@@ -58,7 +58,7 @@ char	**read_map(char *map_file)
 	close(fd);
 	map[i] = NULL;
 	if (i == 0)
-		return (printf("Error\nempty file"), NULL);
+		return (printf("Error\nempty file\n"), NULL);
 	return (map);
 }
 
@@ -118,10 +118,10 @@ int	verify_texture(t_map_info *map)
 		fd = 0;
 		fd = open(map->texture[i], O_RDONLY);
 		if (fd < 0)
-			return (printf("Error\ncannot open file"), 0);
+			return (printf("Error\ncannot open file\n"), 0);
 		close(fd);
 		if (ft_check_arg(map->texture[i], ".xpm42", 6))
-			return (printf("Error\ntexture file incorrect"), 0);
+			return (printf("Error\ntexture file incorrect\n"), 0);
 		i++;
 	}
 	i = 0;
@@ -132,25 +132,5 @@ int	verify_texture(t_map_info *map)
 			return (0);
 		i++;
 	}
-	return (1);
-}
-
-int	fill_texture_struct(t_map_info *map, char *line, int num)
-{
-	char	*start;
-
-	while (*line == ' ' || *line == '\t')
-		line++;
-	start = line;
-	while (*line)
-	{
-		if (*line == ' ' || *line == '\t' || *line == '\r')
-		{
-			*line = '\0';
-			break ;
-		}
-		line++;
-	}
-	map->texture[num] = ft_strdup((const char *)start);
 	return (1);
 }
