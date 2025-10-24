@@ -85,24 +85,24 @@ int	rgb_parse(char *line, int *dest)
 
 	split_arr = ft_split(line, ',');
 	if (!split_arr)
-		return (printf("malloc problem"), 0);
+		return (printf("malloc problem\n"), 0);
 	i = 0;
 	while (split_arr[i])
 		i++;
 	if (i != 3)
-		return (printf("Error\ncolor info incorrect"), 0);
+		return (printf("Error\ncolor info invalid\n"), free_map(split_arr), 0);
 	i = 0;
 	while (i < 3)
 	{
 		if (is_valid_rgb_data(split_arr[i]))
 			dest[i] = ft_atoi(split_arr[i]);
 		else
-			return (free_map(split_arr), printf("Error\nrgb incorrect"), 0);
+			return (free_map(split_arr), printf("Error\nrgb incorrect\n"), 0);
 		i++;
 	}
 	free_map(split_arr);
 	if (i != 3)
-		return (printf("Error\nrgb incorrect"), 0);
+		return (printf("Error\nrgb incorrect\n"), 0);
 	return (1);
 }
 
